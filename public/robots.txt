@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://cafebotanica.com/sitemap.xml

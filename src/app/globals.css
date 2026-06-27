@@ -1,0 +1,212 @@
+@import "tailwindcss";
+
+@theme {
+  --color-linen: #f7f4ee;
+  --color-espresso: #2c2a29;
+  --color-terracotta: #b5562f;
+
+  --color-background: var(--color-linen);
+  --color-foreground: var(--color-espresso);
+
+  --font-display: var(--font-display), Georgia, serif;
+  --font-mono: var(--font-mono), ui-monospace, monospace;
+
+  /* Hard receipt edges. Nothing rounder than 4px. */
+  --radius-edge: 2px;
+}
+
+body {
+  background: var(--color-linen);
+  color: var(--color-espresso);
+  font-family: var(--font-mono);
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1 {
+  text-shadow: 0.1px 0.1px 0px rgba(44, 42, 41, 0.2);
+}
+
+/* Borders read as structural ink rules, not digital lines. */
+.border-espresso {
+  border-color: rgba(44, 42, 41, 0.2) !important;
+}
+
+/* Brutalist hover: cold left-rule, no color change. */
+.menu-row {
+  border-left: 0.5px solid transparent;
+  padding-left: 12px;
+  margin-left: -13px;
+  transition: border-color 0.15s ease;
+}
+.menu-row:hover {
+  border-left-color: var(--color-espresso);
+}
+
+/* SVG fractal noise grain — newsprint/cardstock surface texture. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  pointer-events: none;
+  opacity: 0.018;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23grain)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ─── Keyframes ───────────────────────────────────────────────────── */
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInLeft {
+  from { opacity: 0; transform: translateX(-28px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(28px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleFadeIn {
+  from { opacity: 0; transform: scale(0.94); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Horizontal rule draws across from left */
+@keyframes lineDrawX {
+  from { transform: scaleX(0); transform-origin: left; }
+  to   { transform: scaleX(1); transform-origin: left; }
+}
+
+/* ─── Hero ─────────────────────────────────────────────────────────── */
+
+.hero-animate {
+  animation: fadeInUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.hero-tagline {
+  animation: fadeInUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.22s both;
+}
+
+/* The top rule in the hero draws in after the page loads */
+.hero-rule {
+  animation: lineDrawX 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+}
+
+/* ─── Scroll reveal — RevealOnScroll.tsx adds .is-visible ─────────── */
+
+/* Shared base — invisible until triggered */
+.reveal {
+  opacity: 0;
+  will-change: opacity, transform;
+}
+
+/* Direction variants set their start transform */
+.reveal--up    { transform: translateY(var(--reveal-y, 28px)); }
+.reveal--left  { transform: translateX(var(--reveal-x, -28px)); }
+.reveal--right { transform: translateX(var(--reveal-x, 28px)); }
+.reveal--fade  { transform: none; }
+.reveal--scale { transform: scale(0.95); }
+
+/* Shared transition when visible — spring-like cubic */
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ─── Stagger children ──────────────────────────────────────────────── */
+
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-stagger.is-visible > *:nth-child(1) { opacity: 1; transform: none; transition-delay: 0s; }
+.reveal-stagger.is-visible > *:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.09s; }
+.reveal-stagger.is-visible > *:nth-child(3) { opacity: 1; transform: none; transition-delay: 0.18s; }
+.reveal-stagger.is-visible > *:nth-child(4) { opacity: 1; transform: none; transition-delay: 0.27s; }
+.reveal-stagger.is-visible > *:nth-child(5) { opacity: 1; transform: none; transition-delay: 0.36s; }
+.reveal-stagger.is-visible > *:nth-child(6) { opacity: 1; transform: none; transition-delay: 0.45s; }
+.reveal-stagger.is-visible > *:nth-child(7) { opacity: 1; transform: none; transition-delay: 0.54s; }
+.reveal-stagger.is-visible > *:nth-child(8) { opacity: 1; transform: none; transition-delay: 0.63s; }
+
+/* ─── Nav underline draw on hover / active ──────────────────────────── */
+
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: '';
+  display: block;
+  height: 1px;
+  background: var(--color-terracotta);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-link:hover::after,
+.nav-link[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+/* ─── Gallery film filter ────────────────────────────────────────────── */
+
+.film-frame {
+  filter: sepia(40%) contrast(105%) saturate(90%);
+  transition: filter 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.film-frame:hover {
+  filter: sepia(0%) contrast(110%) saturate(120%);
+}
+
+/* Gallery teaser cards — scale in + desaturate to colour */
+.gallery-card {
+  overflow: hidden;
+}
+.gallery-card img {
+  filter: sepia(50%) contrast(105%) saturate(80%);
+  transition:
+    filter 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.gallery-card:hover img {
+  filter: sepia(0%) contrast(110%) saturate(120%);
+  transform: scale(1.04);
+}
+
+/* ─── Photo mount tilt animation ─────────────────────────────────────── */
+
+.photo-mount {
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.photo-mount:hover {
+  transform: rotate(0deg) scale(1.015) !important;
+}
+
+/* ─── Reduced motion ─────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
