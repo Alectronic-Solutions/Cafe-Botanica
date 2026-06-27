@@ -4,10 +4,10 @@ import type { MenuCategory } from "@/types";
 import RevealOnScroll from "./RevealOnScroll";
 
 const CATEGORY_PHOTOS: Record<string, { src: string; alt: string; caption: string }> = {
-  Morning:    { src: "/photos/gallery-espresso.jpg", alt: "Espresso pulled short at the bar",        caption: "06:45 — bar service" },
-  Midday:     { src: "/photos/gallery-table.jpg",   alt: "Table two before the midday service",     caption: "Table two, before service" },
-  Bakery:     { src: "/photos/gallery-buns.jpg",    alt: "Cardamom buns at 06:45",                  caption: "Baked overnight" },
-  Botanicals: { src: "/photos/gallery-herbs.jpg",   alt: "Herbs before harvest",                    caption: "Greenhouse row" },
+  Morning:    { src: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/photos/gallery-espresso.jpg`, alt: "Espresso pulled short at the bar",        caption: "06:45 — bar service" },
+  Midday:     { src: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/photos/gallery-table.jpg`,   alt: "Table two before the midday service",     caption: "Table two, before service" },
+  Bakery:     { src: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/photos/gallery-buns.jpg`,    alt: "Cardamom buns at 06:45",                  caption: "Baked overnight" },
+  Botanicals: { src: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/photos/gallery-herbs.jpg`,   alt: "Herbs before harvest",                    caption: "Greenhouse row" },
 };
 
 function DotLeader() {
