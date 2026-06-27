@@ -31,8 +31,8 @@ const spaceMono = Space_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(cafeUrl),
   icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon.svg",
+    icon: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/favicon.svg`,
+    shortcut: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/favicon.svg`,
   },
   title: {
     default: "Cafe Botanica — Greenhouse Row",
