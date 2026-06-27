@@ -27,7 +27,7 @@ export default function FilmGallery({ frames, heading }: FilmGalleryProps) {
             <figure key={frame.src} className="group relative overflow-hidden aspect-video bg-espresso/5">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={frame.src}
+                src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${frame.src}`}
                 alt={frame.alt}
                 className="h-full w-full object-cover"
                 style={{

@@ -52,7 +52,7 @@ export default function About() {
               <div className="border border-espresso overflow-hidden" style={{ aspectRatio: "3/4" }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/photos/about-interior.jpg"
+                  src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/photos/about-interior.jpg`}
                   alt="118 Greenhouse Row interior, 1974"
                   className="h-full w-full object-cover"
                   style={{ filter: "sepia(20%) contrast(105%) saturate(110%)" }}

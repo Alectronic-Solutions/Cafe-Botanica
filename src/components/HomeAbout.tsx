@@ -11,7 +11,7 @@ export default function HomeAbout() {
             <div className="border border-espresso/30 overflow-hidden photo-mount" style={{ aspectRatio: "4/5", transform: "rotate(-0.4deg)" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/photos/about-interior.jpg"
+                src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/photos/about-interior.jpg`}
                 alt="118 Greenhouse Row interior"
                 className="h-full w-full object-cover transition-transform duration-700"
                 style={{ filter: "sepia(20%) contrast(105%) saturate(110%)" }}

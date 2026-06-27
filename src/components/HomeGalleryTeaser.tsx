@@ -32,7 +32,7 @@ export default function HomeGalleryTeaser() {
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={f.src}
+                  src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${f.src}`}
                   alt={f.alt}
                   className="h-full w-full object-cover"
                 />

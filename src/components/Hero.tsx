@@ -42,7 +42,7 @@ export default function Hero() {
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/hero.jpg"
+          src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/hero.jpg`}
           alt="The counter at Cafe Botanica, early morning"
           className="h-full w-full object-cover"
           style={{ filter: "sepia(0.6) contrast(1.05) saturate(0.8) brightness(0.72)" }}
