@@ -10,7 +10,7 @@ export default function SiteNav() {
         <div className="flex items-center justify-between py-3 relative">
           <Link href="/" className="flex items-center gap-2.5 group">
             <Image
-              src="/logo.svg"
+              src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/logo.svg`}
               alt="Cafe Botanica mark"
               width={32}
               height={32}
