@@ -20,7 +20,7 @@ export default function Gatherings() {
         {/* Gatherings list */}
         <div className="md:col-span-7">
           <RevealOnScroll direction="fade">
-            <div className="flex items-baseline justify-between border-b border-espresso py-4 font-mono text-[13px] uppercase tracking-[0.18em]">
+            <div className="flex items-baseline justify-between border-b border-espresso py-4 font-mono text-body-sm uppercase tracking-[0.18em]">
               <span>Gatherings</span>
               <span>By reservation</span>
             </div>
@@ -32,22 +32,22 @@ export default function Gatherings() {
               return (
                 <RevealOnScroll key={g.title} direction="up" delay={i * 100} threshold={0.1}>
                   <li className="flex gap-5 border-b border-espresso/20 py-6">
-                    <div className="w-16 shrink-0 text-center">
+                    <div className="w-20 shrink-0 text-center">
                       <div className="font-display text-4xl font-light leading-none">
                         {day}
                       </div>
-                      <div className="mt-1 font-mono text-[11px] tracking-[0.12em] text-espresso/75">
+                      <div className="mt-1 font-mono text-eyebrow tracking-[0.12em] text-espresso/75">
                         {rest}
                       </div>
                     </div>
                     <div className="flex-1">
                       <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
-                        <h3 className="font-mono text-[16px]">{g.title}</h3>
-                        <span className="font-mono text-[12px] text-espresso/70 tabular-nums shrink-0">
+                        <h3 className="font-mono text-body">{g.title}</h3>
+                        <span className="font-mono text-caption text-espresso/70 tabular-nums shrink-0">
                           {g.time} · {g.seats} seats
                         </span>
                       </div>
-                      <p className="mt-2 font-mono text-[14px] leading-relaxed text-espresso/75">
+                      <p className="mt-2 font-mono text-body leading-relaxed text-espresso/75">
                         {g.detail}
                       </p>
                     </div>
@@ -62,14 +62,14 @@ export default function Gatherings() {
         <RevealOnScroll className="md:col-span-5 md:col-start-9" direction="right" delay={180}>
           <aside>
             <div className="border border-espresso">
-              <div className="border-b border-espresso px-5 py-4 font-mono text-[13px] uppercase tracking-[0.18em]">
+              <div className="border-b border-espresso px-5 py-4 font-mono text-body-sm uppercase tracking-[0.18em]">
                 Hours
               </div>
               <dl className="px-5 py-2">
                 {hours.schedule.map((d) => (
                   <div
                     key={d.day}
-                    className="flex justify-between border-b border-espresso/20 py-2.5 font-mono text-[14px] last:border-b-0"
+                    className="flex justify-between border-b border-espresso/20 py-2.5 font-mono text-body last:border-b-0"
                   >
                     <dt>{d.day}</dt>
                     <dd className="tabular-nums">
@@ -82,7 +82,7 @@ export default function Gatherings() {
                   </div>
                 ))}
               </dl>
-              <p className="border-t border-espresso px-5 py-4 font-mono text-[13px] leading-snug text-espresso/75">
+              <p className="border-t border-espresso px-5 py-4 font-mono text-body-sm leading-snug text-espresso/75">
                 {hours.note}
               </p>
             </div>

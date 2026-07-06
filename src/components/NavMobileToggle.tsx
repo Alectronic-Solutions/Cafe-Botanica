@@ -32,7 +32,7 @@ export default function NavMobileToggle() {
               key={href}
               href={href}
               onClick={() => setOpen(false)}
-              className="block font-mono text-[14px] uppercase tracking-[0.14em] px-6 py-5 border-b border-espresso/20 text-espresso hover:text-terracotta"
+              className="block font-mono text-body uppercase tracking-[0.14em] px-6 py-5 border-b border-espresso/20 text-espresso hover:text-terracotta"
             >
               {label}
             </Link>

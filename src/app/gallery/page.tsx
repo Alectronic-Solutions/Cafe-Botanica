@@ -9,18 +9,18 @@ export const metadata: Metadata = {
 };
 
 const frames: FilmFrame[] = [
-  { src: "/photos/gallery-counter.jpg",     alt: "The counter, early morning",   caption: "The counter, early morning" },
-  { src: "/photos/gallery-window.jpg",      alt: "South window, July",           caption: "South window, July" },
-  { src: "/photos/gallery-greenhouse.jpg",  alt: "Greenhouse row, late spring",  caption: "Greenhouse row, late spring" },
-  { src: "/photos/gallery-table.jpg",       alt: "Table two, before service",    caption: "Table two, before service" },
-  { src: "/photos/gallery-espresso.jpg",    alt: "Espresso, pulled short",       caption: "Espresso, pulled short" },
-  { src: "/photos/gallery-back-window.jpg", alt: "The back window, February",    caption: "The back window, February" },
-  { src: "/photos/gallery-herbs.jpg",       alt: "Herbs before harvest",         caption: "Herbs before harvest" },
-  { src: "/photos/gallery-buns.jpg",        alt: "Cardamom buns, 06:45",         caption: "Cardamom buns, 06:45" },
-  { src: "/photos/gallery-rush.jpg",        alt: "Morning rush, Thursday",       caption: "Morning rush, Thursday" },
-  { src: "/photos/gallery-east-wall.jpg",   alt: "East wall, summer light",      caption: "East wall, summer light" },
-  { src: "/photos/gallery-autumn.jpg",      alt: "The greenhouse in autumn",     caption: "The greenhouse in autumn" },
-  { src: "/photos/gallery-closing.jpg",     alt: "Closing time, Saturday",       caption: "Closing time, Saturday" },
+  { src: "/photos/gallery-counter.jpg",     alt: "The counter, early morning",   caption: "The counter, early morning", span: 4 },
+  { src: "/photos/gallery-window.jpg",      alt: "South window, July",           caption: "South window, July",         span: 4 },
+  { src: "/photos/gallery-greenhouse.jpg",  alt: "Greenhouse row, late spring",  caption: "Greenhouse row, late spring", span: 4 },
+  { src: "/photos/gallery-table.jpg",       alt: "Table two, before service",    caption: "Table two, before service",  span: 8 },
+  { src: "/photos/gallery-espresso.jpg",    alt: "Espresso, pulled short",       caption: "Espresso, pulled short",     span: 4 },
+  { src: "/photos/gallery-back-window.jpg", alt: "The back window, February",    caption: "The back window, February",  span: 4 },
+  { src: "/photos/gallery-herbs.jpg",       alt: "Herbs before harvest",         caption: "Herbs before harvest",       span: 4 },
+  { src: "/photos/gallery-buns.jpg",        alt: "Cardamom buns, 06:45",         caption: "Cardamom buns, 06:45",       span: 4 },
+  { src: "/photos/gallery-rush.jpg",        alt: "Morning rush, Thursday",       caption: "Morning rush, Thursday",     span: 8 },
+  { src: "/photos/gallery-east-wall.jpg",   alt: "East wall, summer light",      caption: "East wall, summer light",    span: 4 },
+  { src: "/photos/gallery-autumn.jpg",      alt: "The greenhouse in autumn",     caption: "The greenhouse in autumn",   span: 6 },
+  { src: "/photos/gallery-closing.jpg",     alt: "Closing time, Saturday",       caption: "Closing time, Saturday",     span: 6 },
 ]
 
 export default function GalleryPage() {
@@ -28,7 +28,7 @@ export default function GalleryPage() {
     <div>
       {/* Label bar */}
       <div className="mx-auto max-w-6xl px-6">
-        <div className="flex items-baseline justify-between border-b border-espresso py-4 font-mono text-[12px] uppercase tracking-[0.18em]">
+        <div className="flex items-baseline justify-between border-b border-espresso py-4 font-mono text-caption uppercase tracking-[0.18em]">
           <span>Gallery</span>
           <span>118 Greenhouse Row</span>
         </div>
@@ -44,7 +44,7 @@ export default function GalleryPage() {
               </h1>
             </div>
             <div className="md:col-span-4 md:col-start-9 flex items-end pt-8 md:pt-0">
-              <p className="font-mono text-[14px] leading-[1.8] text-espresso/80" style={{ maxWidth: "260px" }}>
+              <p className="font-mono text-body leading-[1.8] text-espresso/80" style={{ maxWidth: "260px" }}>
                 Film stills from fifty years on Greenhouse Row. The space does not change quickly. Neither do we.
               </p>
             </div>

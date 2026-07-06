@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { notFound } from "next/navigation";
 import { menu } from "@/data/botanica";
 import type { MenuCategory, MenuItem } from "@/types";
 
@@ -13,6 +14,8 @@ function buildState(categories: MenuCategory[]): ItemState[] {
 }
 
 export default function AdminPage() {
+  if (process.env.NODE_ENV === "production") notFound();
+
   const [items, setItems] = useState<ItemState[]>(() => buildState(menu));
 
   function toggle(index: number) {

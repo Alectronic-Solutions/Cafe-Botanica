@@ -12,7 +12,7 @@ export default function About() {
     <div>
       {/* Label bar */}
       <div className="mx-auto max-w-6xl px-6">
-        <div className="flex items-baseline justify-between border-b border-espresso py-4 font-mono text-[12px] uppercase tracking-[0.18em]">
+        <div className="flex items-baseline justify-between border-b border-espresso py-4 font-mono text-caption uppercase tracking-[0.18em]">
           <span>The Story</span>
           <span>Est. 1974</span>
         </div>
@@ -27,7 +27,7 @@ export default function About() {
                 A place that does<br />
                 not hurry.
               </h1>
-              <div className="mt-10 space-y-5 font-mono text-[14px] leading-[1.85] text-espresso/85" style={{ maxWidth: "480px" }}>
+              <div className="mt-10 space-y-5 font-mono text-body leading-[1.85] text-espresso/85" style={{ maxWidth: "480px" }}>
                 <p>
                   Margaret Hollis opened the doors on Greenhouse Row in the autumn of 1974.
                   The neighborhood was quiet then. A few artists, a print shop, the
@@ -58,7 +58,7 @@ export default function About() {
                   style={{ filter: "sepia(20%) contrast(105%) saturate(110%)" }}
                 />
               </div>
-              <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-espresso/60 mt-3">
+              <p className="font-mono text-eyebrow uppercase tracking-[0.16em] text-espresso/60 mt-3">
                 118 Greenhouse Row · 1974
               </p>
             </div>
@@ -87,10 +87,10 @@ export default function About() {
                   },
                 ].map(({ label, body }) => (
                   <div key={label} className="border-t border-espresso pt-8 pb-10 md:border-l md:border-t-0 md:px-8 first:md:pl-0 last:md:pr-0">
-                    <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-terracotta mb-4">
+                    <p className="font-mono text-caption uppercase tracking-[0.14em] text-terracotta mb-4">
                       {label}
                     </p>
-                    <p className="font-mono text-[14px] leading-[1.85] text-espresso/85">
+                    <p className="font-mono text-body leading-[1.85] text-espresso/85">
                       {body}
                     </p>
                   </div>
@@ -108,7 +108,7 @@ export default function About() {
             <blockquote className="font-display text-[clamp(1.8rem,5vw,4rem)] font-light leading-[1.1] tracking-[-0.01em] italic max-w-4xl">
               We are not a third wave coffee concept. We are a place.
             </blockquote>
-            <p className="mt-6 font-mono text-[12px] uppercase tracking-[0.18em] text-espresso/60">
+            <p className="mt-6 font-mono text-caption uppercase tracking-[0.18em] text-espresso/60">
               Margaret Hollis, 1974
             </p>
           </div>

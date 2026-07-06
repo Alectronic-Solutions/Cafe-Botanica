@@ -23,7 +23,7 @@ export default function NavLinks() {
           <li key={href}>
             <Link
               href={href}
-              className="nav-link font-mono text-[11px] uppercase tracking-[0.16em] text-espresso"
+              className="nav-link font-mono text-eyebrow uppercase tracking-[0.16em] text-espresso"
               aria-current={isActive ? 'page' : undefined}
             >
               {label}

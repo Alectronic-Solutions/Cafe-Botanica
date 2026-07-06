@@ -10,7 +10,7 @@ export default function Error({
 }) {
   return (
     <div className="mx-auto max-w-6xl px-6 py-32">
-      <div className="flex items-baseline justify-between border-b border-espresso py-4 font-mono text-[12px] uppercase tracking-[0.18em]">
+      <div className="flex items-baseline justify-between border-b border-espresso py-4 font-mono text-caption uppercase tracking-[0.18em]">
         <span>Error</span>
         <span>Something went wrong</span>
       </div>
@@ -20,7 +20,7 @@ export default function Error({
           Something broke.
         </h1>
         <div className="col-span-1 flex items-end md:col-span-5">
-          <p className="font-mono text-[13px] leading-[1.8]" style={{ maxWidth: "280px" }}>
+          <p className="font-mono text-body-sm leading-[1.8]" style={{ maxWidth: "280px" }}>
             An error occurred on this page. Try reloading, or head back to the counter.
           </p>
         </div>
@@ -29,13 +29,13 @@ export default function Error({
       <div className="border-t border-espresso/20 pt-6 flex gap-8">
         <button
           onClick={reset}
-          className="nav-link font-mono text-[12px] uppercase tracking-[0.16em] text-espresso"
+          className="nav-link font-mono text-caption uppercase tracking-[0.16em] text-espresso"
         >
           Try again
         </button>
         <Link
           href="/"
-          className="nav-link font-mono text-[12px] uppercase tracking-[0.16em] text-espresso"
+          className="nav-link font-mono text-caption uppercase tracking-[0.16em] text-espresso"
         >
           Back to the counter
         </Link>

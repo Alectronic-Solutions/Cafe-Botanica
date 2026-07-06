@@ -17,7 +17,7 @@ export default function HomeAbout() {
                 style={{ filter: "sepia(20%) contrast(105%) saturate(110%)" }}
               />
             </div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-espresso/60 mt-3">
+            <p className="font-mono text-eyebrow uppercase tracking-[0.16em] text-espresso/60 mt-3">
               118 Greenhouse Row · Est. 1974
             </p>
           </RevealOnScroll>
@@ -27,14 +27,14 @@ export default function HomeAbout() {
             <blockquote className="font-display text-[clamp(1.75rem,4vw,3rem)] font-light leading-[1.08] tracking-[-0.01em] italic text-espresso mb-8">
               We are not a third wave coffee concept. We are a place.
             </blockquote>
-            <p className="font-mono text-[14px] leading-[1.9] text-espresso/85 mb-8" style={{ maxWidth: "380px" }}>
+            <p className="font-mono text-body leading-[1.9] text-espresso/85 mb-8" style={{ maxWidth: "380px" }}>
               Margaret Hollis opened the doors in the autumn of 1974. The space
               has changed hands twice since then, each time to someone who
               understood what it was trying to be.
             </p>
             <Link
               href="/about"
-              className="font-mono text-[12px] uppercase tracking-[0.18em] text-terracotta hover:underline transition-colors duration-150 self-start"
+              className="font-mono text-caption uppercase tracking-[0.18em] text-terracotta hover:underline transition-colors duration-150 self-start"
             >
               Read the story
             </Link>

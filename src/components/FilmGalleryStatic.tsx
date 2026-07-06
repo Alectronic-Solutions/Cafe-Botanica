@@ -178,7 +178,7 @@ export default function FilmGalleryStatic({ frames, heading }: FilmGalleryStatic
             <div key={i} className="film-frame group relative overflow-hidden border border-espresso/20">
               <Scene n={i + 1} />
               <div className="absolute bottom-0 left-0 right-0 px-4 py-3 bg-linen/90 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
-                <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-espresso/70">
+                <p className="font-mono text-eyebrow uppercase tracking-[0.14em] text-espresso/70">
                   {caption}
                 </p>
               </div>

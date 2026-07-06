@@ -13,6 +13,18 @@
 
   /* Hard receipt edges. Nothing rounder than 4px. */
   --radius-edge: 2px;
+
+  /* Type scale — floor raised for mobile legibility, clamp() for display sizes */
+  --text-micro: 0.8125rem;   /* 13px — legal, meta */
+  --text-eyebrow: 0.8125rem; /* 13px — uppercase tracked labels */
+  --text-caption: 0.875rem;  /* 14px — captions, secondary notes */
+  --text-body-sm: 0.9375rem; /* 15px — dense body copy (menu descriptions) */
+  --text-body: 1rem;         /* 16px — reading copy */
+  --text-body-lg: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem); /* 17-19px */
+  --text-h3: clamp(1.75rem, 1.3rem + 2vw, 3.25rem);
+  --text-h2: clamp(2.2rem, 1.6rem + 3vw, 4rem);
+  --text-h1: clamp(3.2rem, 1.5rem + 8vw, 7.5rem);
+  --text-display: clamp(2.8rem, 1.5rem + 6vw, 6rem);
 }
 
 body {
@@ -61,6 +73,28 @@ body::before {
 
 html {
   scroll-behavior: smooth;
+}
+
+/* ─── Scrollbar — slim receipt-ledger rule instead of default chrome ── */
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-espresso) var(--color-linen);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-linen);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(44, 42, 41, 0.35);
+  border: 2px solid var(--color-linen);
+  border-radius: var(--radius-edge);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-terracotta);
 }
 
 /* ─── Keyframes ───────────────────────────────────────────────────── */

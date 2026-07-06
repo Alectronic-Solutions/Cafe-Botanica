@@ -19,7 +19,7 @@ import {
 const fraunces = Fraunces({
   variable: "--font-display",
   subsets: ["latin"],
-  axes: ["opsz", "SOFT", "WONK"],
+  axes: ["opsz"],
 });
 
 const spaceMono = Space_Mono({
@@ -35,8 +35,8 @@ export const metadata: Metadata = {
     shortcut: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/favicon.svg`,
   },
   title: {
-    default: "Cafe Botanica — Greenhouse Row",
-    template: "%s — Cafe Botanica",
+    default: "Cafe Botanica: Greenhouse Row",
+    template: "%s: Cafe Botanica",
   },
   description:
     "An espresso bar and bakery on Greenhouse Row, Atlanta. Pouring since 1974.",
@@ -91,6 +91,7 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${fraunces.variable} ${spaceMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
       <head>
         <script

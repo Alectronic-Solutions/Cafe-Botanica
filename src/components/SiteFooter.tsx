@@ -18,10 +18,10 @@ export default function SiteFooter() {
 
         {/* Wordmark band */}
         <div className="border-b border-linen/15 py-12 md:py-16">
-          <p className="font-display text-[clamp(2.8rem,8vw,6rem)] font-light leading-none tracking-[-0.02em] text-linen/90">
+          <p className="font-display text-display font-light leading-none tracking-[-0.02em] text-linen/90">
             {cafeName}
           </p>
-          <p className="mt-3 font-mono text-[12px] uppercase tracking-[0.18em] text-linen/55">
+          <p className="mt-3 font-mono text-eyebrow uppercase tracking-[0.18em] text-linen/55">
             {cafeAddress} · Est. {established}
           </p>
         </div>
@@ -30,7 +30,7 @@ export default function SiteFooter() {
         <div className="grid grid-cols-1 gap-6 border-b border-linen/15 py-10 md:grid-cols-2 md:gap-10 md:py-14">
           {/* Embedded map */}
           <div>
-            <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.2em] text-terracotta">
+            <p className="mb-4 font-mono text-eyebrow uppercase tracking-[0.2em] text-terracotta">
               Find us
             </p>
             <div className="border border-linen/15 overflow-hidden" style={{ aspectRatio: "16/7" }}>
@@ -49,7 +49,7 @@ export default function SiteFooter() {
               href="https://maps.google.com/?q=118+Greenhouse+Row+Atlanta+GA"
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-3 inline-block font-mono text-[11px] uppercase tracking-[0.16em] text-linen/55 hover:text-terracotta transition-colors duration-150"
+              className="mt-3 inline-block font-mono text-eyebrow uppercase tracking-[0.16em] text-linen/55 hover:text-terracotta transition-colors duration-150"
             >
               Open in Maps
             </a>
@@ -58,15 +58,15 @@ export default function SiteFooter() {
           {/* Newsletter */}
           <div className="flex flex-col justify-between">
             <div>
-              <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.2em] text-terracotta">
+              <p className="mb-4 font-mono text-eyebrow uppercase tracking-[0.2em] text-terracotta">
                 The weekly post
               </p>
-              <p className="font-mono text-[14px] leading-[1.85] text-linen/75 mb-6" style={{ maxWidth: "340px" }}>
+              <p className="font-mono text-body leading-[1.85] text-linen/75 mb-6" style={{ maxWidth: "340px" }}>
                 New gatherings, seasonal menu changes, and the occasional note
                 from the counter. One email a week, never more.
               </p>
               <NewsletterForm />
-              <p className="mt-3 font-mono text-[11px] text-linen/50">
+              <p className="mt-3 font-mono text-eyebrow text-linen/50">
                 No spam. Unsubscribe any time.
               </p>
             </div>
@@ -78,22 +78,22 @@ export default function SiteFooter() {
 
           {/* Contact — 4 cols */}
           <div className="md:col-span-4">
-            <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.2em] text-terracotta">
+            <p className="mb-5 font-mono text-eyebrow uppercase tracking-[0.2em] text-terracotta">
               Contact
             </p>
-            <address className="font-mono text-[14px] leading-loose not-italic text-linen/75">
+            <address className="font-mono text-body leading-loose not-italic text-linen/75">
               {cafeAddress}<br />
               {cafeCity}, {cafeRegion} {cafePostal}
             </address>
             <a
               href={`tel:${cafePhone}`}
-              className="mt-2 block font-mono text-[14px] text-linen/75 hover:text-terracotta transition-colors duration-150"
+              className="mt-2 block font-mono text-body text-linen/75 hover:text-terracotta transition-colors duration-150"
             >
               (404) 555-0174
             </a>
             <a
               href="mailto:hello@cafebotanica.com"
-              className="mt-1 block font-mono text-[14px] text-linen/75 hover:text-terracotta transition-colors duration-150"
+              className="mt-1 block font-mono text-body text-linen/75 hover:text-terracotta transition-colors duration-150"
             >
               hello@cafebotanica.com
             </a>
@@ -104,7 +104,7 @@ export default function SiteFooter() {
               ].map(({ label }) => (
                 <span
                   key={label}
-                  className="font-mono text-[11px] uppercase tracking-[0.16em] text-linen/30 cursor-default select-none"
+                  className="font-mono text-eyebrow uppercase tracking-[0.16em] text-linen/30 cursor-default select-none"
                   aria-label={`${label} — coming soon`}
                 >
                   {label}
@@ -115,10 +115,10 @@ export default function SiteFooter() {
 
           {/* Hours — 4 cols */}
           <div className="md:col-span-4">
-            <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.2em] text-terracotta">
+            <p className="mb-5 font-mono text-eyebrow uppercase tracking-[0.2em] text-terracotta">
               Hours
             </p>
-            <dl className="font-mono text-[14px]">
+            <dl className="font-mono text-body">
               {hours.schedule.map((d) => (
                 <div key={d.day} className="flex justify-between border-b border-linen/15 py-2.5 last:border-b-0">
                   <dt className="text-linen/65">{d.day}</dt>
@@ -130,17 +130,17 @@ export default function SiteFooter() {
                 </div>
               ))}
             </dl>
-            <p className="mt-4 font-mono text-[12px] text-linen/55 leading-snug">
+            <p className="mt-4 font-mono text-caption text-linen/55 leading-snug">
               {hours.note}
             </p>
           </div>
 
           {/* Explore — 3 cols, offset */}
           <div className="md:col-span-3 md:col-start-10">
-            <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.2em] text-terracotta">
+            <p className="mb-5 font-mono text-eyebrow uppercase tracking-[0.2em] text-terracotta">
               Explore
             </p>
-            <ul className="font-mono text-[14px] space-y-3">
+            <ul className="font-mono text-body space-y-3">
               {[
                 { label: 'Menu',       href: '/menu' },
                 { label: 'About',      href: '/about' },
@@ -162,12 +162,12 @@ export default function SiteFooter() {
         <div className="border-t border-linen/10 py-6 space-y-3 md:space-y-0 md:flex md:items-center md:justify-between">
           {/* Row 1 on mobile: copyright + back to top */}
           <div className="flex items-center justify-between md:contents">
-            <span className="font-mono text-[11px] text-linen/50">
+            <span className="font-mono text-eyebrow text-linen/50">
               &copy; {new Date().getFullYear()} {cafeName}. All rights reserved.
             </span>
             <a
               href="#"
-              className="font-mono text-[11px] text-linen/50 hover:text-linen/80 transition-colors duration-150 md:border-l md:border-linen/20 md:pl-6 md:order-last"
+              className="font-mono text-eyebrow text-linen/50 hover:text-linen/80 transition-colors duration-150 md:border-l md:border-linen/20 md:pl-6 md:order-last"
             >
               Back to top
             </a>
@@ -182,7 +182,7 @@ export default function SiteFooter() {
               <Link
                 key={href}
                 href={href}
-                className="font-mono text-[11px] text-linen/50 hover:text-linen/80 transition-colors duration-150"
+                className="font-mono text-eyebrow text-linen/50 hover:text-linen/80 transition-colors duration-150"
               >
                 {label}
               </Link>

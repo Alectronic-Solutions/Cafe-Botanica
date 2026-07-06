@@ -21,7 +21,7 @@ export default function ContactPage() {
     <div>
       {/* Label bar */}
       <div className="mx-auto max-w-6xl px-6">
-        <div className="flex items-baseline justify-between border-b border-espresso py-4 font-mono text-[12px] uppercase tracking-[0.18em]">
+        <div className="flex items-baseline justify-between border-b border-espresso py-4 font-mono text-caption uppercase tracking-[0.18em]">
           <span>Contact</span>
           <span>Atlanta, GA</span>
         </div>
@@ -45,16 +45,16 @@ export default function ContactPage() {
             <div className="space-y-10">
               {/* Address */}
               <div>
-                <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-terracotta mb-3">
+                <p className="font-mono text-caption uppercase tracking-[0.14em] text-terracotta mb-3">
                   Find us
                 </p>
-                <address className="font-mono text-[14px] leading-[1.9] not-italic text-espresso/85">
+                <address className="font-mono text-body leading-[1.9] not-italic text-espresso/85">
                   {cafeAddress}<br />
                   {cafeCity}, {cafeRegion} {cafePostal}
                 </address>
                 <a
                   href={`tel:${cafePhone}`}
-                  className="block mt-2 font-mono text-[14px] text-espresso/85 hover:text-terracotta transition-colors duration-150"
+                  className="block mt-2 font-mono text-body text-espresso/85 hover:text-terracotta transition-colors duration-150"
                 >
                   (404) 555-0174
                 </a>
@@ -62,7 +62,7 @@ export default function ContactPage() {
                   href="https://maps.google.com/?q=118+Greenhouse+Row+Atlanta+GA"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block mt-4 font-mono text-[12px] uppercase tracking-[0.14em] text-espresso/60 hover:text-terracotta transition-colors duration-150"
+                  className="block mt-4 font-mono text-caption uppercase tracking-[0.14em] text-espresso/60 hover:text-terracotta transition-colors duration-150"
                 >
                   Open in Maps
                 </a>
@@ -70,10 +70,10 @@ export default function ContactPage() {
 
               {/* Hours */}
               <div>
-                <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-terracotta mb-3">
+                <p className="font-mono text-caption uppercase tracking-[0.14em] text-terracotta mb-3">
                   Hours
                 </p>
-                <dl className="font-mono text-[14px] leading-[1.9]">
+                <dl className="font-mono text-body leading-[1.9]">
                   {hours.schedule.map((d) => (
                     <div key={d.day} className="flex justify-between gap-4 border-b border-espresso/15 py-2 last:border-b-0">
                       <dt className="text-espresso/70">{d.day}</dt>
@@ -86,19 +86,19 @@ export default function ContactPage() {
                     </div>
                   ))}
                 </dl>
-                <p className="mt-3 font-mono text-[12px] text-espresso/60 leading-snug">
+                <p className="mt-3 font-mono text-caption text-espresso/60 leading-snug">
                   {hours.note}
                 </p>
               </div>
 
               {/* Email */}
               <div>
-                <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-terracotta mb-3">
+                <p className="font-mono text-caption uppercase tracking-[0.14em] text-terracotta mb-3">
                   Email
                 </p>
                 <a
                   href="mailto:hello@cafebotanica.com"
-                  className="font-mono text-[14px] text-espresso/85 hover:text-terracotta transition-colors duration-150"
+                  className="font-mono text-body text-espresso/85 hover:text-terracotta transition-colors duration-150"
                 >
                   hello@cafebotanica.com
                 </a>

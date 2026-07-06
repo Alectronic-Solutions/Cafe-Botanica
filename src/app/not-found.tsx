@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function NotFound() {
   return (
     <div className="mx-auto max-w-6xl px-6 py-32">
-      <div className="flex items-baseline justify-between border-b border-espresso py-4 font-mono text-[12px] uppercase tracking-[0.18em]">
+      <div className="flex items-baseline justify-between border-b border-espresso py-4 font-mono text-caption uppercase tracking-[0.18em]">
         <span>404</span>
         <span>Page not found</span>
       </div>
@@ -13,7 +13,7 @@ export default function NotFound() {
           Not here.
         </h1>
         <div className="col-span-1 flex items-end md:col-span-5">
-          <p className="font-mono text-[13px] leading-[1.8]" style={{ maxWidth: "280px" }}>
+          <p className="font-mono text-body-sm leading-[1.8]" style={{ maxWidth: "280px" }}>
             This page does not exist. The coffee, however, does.
           </p>
         </div>
@@ -22,7 +22,7 @@ export default function NotFound() {
       <div className="border-t border-espresso/20 pt-6">
         <Link
           href="/"
-          className="nav-link font-mono text-[12px] uppercase tracking-[0.16em] text-espresso"
+          className="nav-link font-mono text-caption uppercase tracking-[0.16em] text-espresso"
         >
           Back to the counter
         </Link>
