@@ -21,7 +21,7 @@ export default function Gatherings() {
         <div className="md:col-span-7">
           <RevealOnScroll direction="fade">
             <div className="flex items-baseline justify-between border-b border-espresso py-4 font-mono text-body-sm uppercase tracking-[0.18em]">
-              <span>Gatherings</span>
+              <h2 className="font-mono text-body-sm uppercase tracking-[0.18em]">Gatherings</h2>
               <span>By reservation</span>
             </div>
           </RevealOnScroll>
@@ -58,13 +58,13 @@ export default function Gatherings() {
           </ul>
         </div>
 
-        {/* Hours panel — slides in from right */}
+        {/* Hours panel - slides in from right */}
         <RevealOnScroll className="md:col-span-5 md:col-start-9" direction="right" delay={180}>
           <aside>
             <div className="border border-espresso">
-              <div className="border-b border-espresso px-5 py-4 font-mono text-body-sm uppercase tracking-[0.18em]">
+              <h2 className="border-b border-espresso px-5 py-4 font-mono text-body-sm uppercase tracking-[0.18em]">
                 Hours
-              </div>
+              </h2>
               <dl className="px-5 py-2">
                 {hours.schedule.map((d) => (
                   <div

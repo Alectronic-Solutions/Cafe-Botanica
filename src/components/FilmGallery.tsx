@@ -1,14 +1,19 @@
+import Photo from "./Photo";
+
 export interface FilmFrame {
   src: string;
   alt: string;
   caption?: string;
   /** Grid columns out of 12 at md+. Each row group must sum to 12. */
   span?: 4 | 6 | 8;
+  /** Intrinsic pixel dimensions of the source JPG (prevents layout shift). */
+  width?: number;
+  height?: number;
 }
 
 interface FilmGalleryProps {
   frames: FilmFrame[];
-  /** Section heading — defaults to none. */
+  /** Section heading - defaults to none. */
   heading?: string;
 }
 
@@ -23,14 +28,14 @@ const SPAN_CLASS: Record<number, string> = {
 const ROW_HEIGHT = "h-65 md:h-80";
 
 export default function FilmGallery({ frames, heading }: FilmGalleryProps) {
-  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-
   return (
     <section className="border-b border-espresso">
       <div className="mx-auto max-w-6xl px-6">
         <div className="flex items-baseline justify-between border-b border-espresso py-4 font-mono text-caption uppercase tracking-[0.18em]">
-          <span>{heading ?? "Contact Sheet"}</span>
-          <span className="text-espresso/50">
+          <h2 className="font-mono text-caption uppercase tracking-[0.18em]">
+            {heading ?? "Contact Sheet"}
+          </h2>
+          <span className="text-espresso/60">
             {String(frames.length).padStart(2, "0")} frames
           </span>
         </div>
@@ -43,11 +48,12 @@ export default function FilmGallery({ frames, heading }: FilmGalleryProps) {
                 key={frame.src}
                 className={`group relative overflow-hidden border-b border-r border-espresso/15 bg-linen ${SPAN_CLASS[span]} ${ROW_HEIGHT}`}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={`${basePath}${frame.src}`}
+                <Photo
+                  src={frame.src}
                   alt={frame.alt}
-                  loading="lazy"
+                  width={frame.width ?? 900}
+                  height={frame.height ?? 600}
+                  sizes="(max-width: 768px) 100vw, 33vw"
                   className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
                   style={{ filter: "sepia(10%) contrast(110%) saturate(120%)" }}
                 />

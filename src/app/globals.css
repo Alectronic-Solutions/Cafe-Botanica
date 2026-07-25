@@ -4,6 +4,9 @@
   --color-linen: #f7f4ee;
   --color-espresso: #2c2a29;
   --color-terracotta: #b5562f;
+  /* Lighter terracotta for labels on the espresso background - the base
+     terracotta only reaches ~3:1 on espresso; this tint clears WCAG AA (≈5.2:1). */
+  --color-terracotta-light: #d98a5e;
 
   --color-background: var(--color-linen);
   --color-foreground: var(--color-espresso);
@@ -14,16 +17,16 @@
   /* Hard receipt edges. Nothing rounder than 4px. */
   --radius-edge: 2px;
 
-  /* Type scale — floor raised for mobile legibility, clamp() for display sizes */
-  --text-micro: 0.8125rem;   /* 13px — legal, meta */
-  --text-eyebrow: 0.8125rem; /* 13px — uppercase tracked labels */
-  --text-caption: 0.875rem;  /* 14px — captions, secondary notes */
-  --text-body-sm: 0.9375rem; /* 15px — dense body copy (menu descriptions) */
-  --text-body: 1rem;         /* 16px — reading copy */
+  /* Type scale - floor raised for mobile legibility, clamp() for display sizes */
+  --text-micro: 0.8125rem;   /* 13px - legal, meta */
+  --text-eyebrow: 0.8125rem; /* 13px - uppercase tracked labels */
+  --text-caption: 0.875rem;  /* 14px - captions, secondary notes */
+  --text-body-sm: 0.9375rem; /* 15px - dense body copy (menu descriptions) */
+  --text-body: 1rem;         /* 16px - reading copy */
   --text-body-lg: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem); /* 17-19px */
   --text-h3: clamp(1.75rem, 1.3rem + 2vw, 3.25rem);
   --text-h2: clamp(2.2rem, 1.6rem + 3vw, 4rem);
-  --text-h1: clamp(3.2rem, 1.5rem + 8vw, 7.5rem);
+  --text-h1: clamp(2.7rem, 1rem + 7.5vw, 7.5rem); /* floor lowered so the longest hero line fits narrow phones without horizontal overflow */
   --text-display: clamp(2.8rem, 1.5rem + 6vw, 6rem);
 }
 
@@ -31,6 +34,10 @@ body {
   background: var(--color-linen);
   color: var(--color-espresso);
   font-family: var(--font-mono);
+  /* Safety net: nothing may cause the page itself to scroll sideways. `clip`
+     (not `hidden`) so it never turns body into a scroll container or breaks the
+     sticky nav. */
+  overflow-x: clip;
 }
 
 * {
@@ -58,7 +65,7 @@ h1 {
   border-left-color: var(--color-espresso);
 }
 
-/* SVG fractal noise grain — newsprint/cardstock surface texture. */
+/* SVG fractal noise grain - newsprint/cardstock surface texture. */
 body::before {
   content: "";
   position: fixed;
@@ -75,7 +82,7 @@ html {
   scroll-behavior: smooth;
 }
 
-/* ─── Scrollbar — slim receipt-ledger rule instead of default chrome ── */
+/* ─── Scrollbar - slim receipt-ledger rule instead of default chrome ── */
 
 html {
   scrollbar-width: thin;
@@ -139,22 +146,25 @@ html {
   animation: lineDrawX 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
 }
 
-/* ─── Scroll reveal — RevealOnScroll.tsx adds .is-visible ─────────── */
+/* ─── Scroll reveal - RevealOnScroll.tsx adds .is-visible ─────────── */
 
-/* Shared base — invisible until triggered */
-.reveal {
+/* Invisible until triggered - but ONLY when JS is present to trigger it.
+   The inline script in <head> adds `.js` to <html> before paint, so with
+   JS disabled (or before hydration) this block never applies and content
+   renders visible. This keeps the page usable and crawlable without JS. */
+.js .reveal {
   opacity: 0;
   will-change: opacity, transform;
 }
 
-/* Direction variants set their start transform */
-.reveal--up    { transform: translateY(var(--reveal-y, 28px)); }
-.reveal--left  { transform: translateX(var(--reveal-x, -28px)); }
-.reveal--right { transform: translateX(var(--reveal-x, 28px)); }
-.reveal--fade  { transform: none; }
-.reveal--scale { transform: scale(0.95); }
+/* Direction variants set their start transform (also JS-gated) */
+.js .reveal--up    { transform: translateY(var(--reveal-y, 28px)); }
+.js .reveal--left  { transform: translateX(var(--reveal-x, -28px)); }
+.js .reveal--right { transform: translateX(var(--reveal-x, 28px)); }
+.js .reveal--fade  { transform: none; }
+.js .reveal--scale { transform: scale(0.95); }
 
-/* Shared transition when visible — spring-like cubic */
+/* Shared transition when visible - spring-like cubic */
 .reveal.is-visible {
   opacity: 1;
   transform: none;
@@ -165,7 +175,7 @@ html {
 
 /* ─── Stagger children ──────────────────────────────────────────────── */
 
-.reveal-stagger > * {
+.js .reveal-stagger > * {
   opacity: 0;
   transform: translateY(18px);
   transition:
@@ -210,7 +220,7 @@ html {
   filter: sepia(0%) contrast(110%) saturate(120%);
 }
 
-/* Gallery teaser cards — scale in + desaturate to colour */
+/* Gallery teaser cards - scale in + desaturate to colour */
 .gallery-card {
   overflow: hidden;
 }
@@ -243,4 +253,25 @@ html {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+
+  /* Zeroing the transition alone isn't enough - the reveal elements start at
+     opacity:0 and only reach opacity:1 once the observer fires. Force them
+     visible so reduced-motion users never depend on the scroll trigger. */
+  .js .reveal,
+  .js .reveal-stagger > * {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ─── Focus visibility (WCAG 2.4.7) ─────────────────────────────────── */
+
+:focus-visible {
+  outline: 2px solid var(--color-terracotta);
+  outline-offset: 2px;
+}
+
+/* On the espresso footer the terracotta ring has poor contrast - use linen. */
+footer :focus-visible {
+  outline-color: var(--color-linen);
 }

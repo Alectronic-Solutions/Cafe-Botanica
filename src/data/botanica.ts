@@ -7,8 +7,17 @@ export const cafeRegion = "GA";
 export const cafePostal = "30307";
 export const cafeCountry = "US";
 export const cafePhone = "+14045550174";
-export const cafeUrl = "https://cafebotanica.com";
 export const established = 1974;
+
+// Single source of truth for the deployed URL. The site is a static export
+// served from GitHub Pages under the /Cafe-Botanica basePath, so the canonical
+// origin and the basePath are kept separate: `siteOrigin` for metadataBase,
+// `siteUrl` (origin + basePath) for anything that must be a full public URL.
+export const siteOrigin = "https://alectronic-solutions.github.io";
+export const sitePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "/Cafe-Botanica";
+export const siteUrl = `${siteOrigin}${sitePath}`;
+// Back-compat alias - the canonical public address of the cafe's site.
+export const cafeUrl = siteUrl;
 
 export const menu: MenuCategory[] = [
   {

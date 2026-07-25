@@ -11,7 +11,7 @@ export default function HomeMenuPreview() {
           {/* Item list */}
           <div className="md:col-span-7">
             <div className="flex items-baseline justify-between border-b border-espresso py-4 font-mono text-caption uppercase tracking-[0.18em]">
-              <span>From the menu</span>
+              <h2 className="font-mono text-caption uppercase tracking-[0.18em]">From the menu</h2>
               <Link
                 href="/menu"
                 className="text-terracotta hover:underline transition-colors duration-150"

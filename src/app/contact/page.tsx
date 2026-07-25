@@ -11,6 +11,7 @@ import {
 } from "@/data/botanica";
 
 export const metadata: Metadata = {
+  alternates: { canonical: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/contact` },
   title: "Contact",
   description:
     "Get in touch with Cafe Botanica. 118 Greenhouse Row, Old Fourth Ward, Atlanta.",
@@ -30,7 +31,7 @@ export default function ContactPage() {
       <div className="mx-auto max-w-6xl px-6">
         <div className="grid grid-cols-1 gap-y-16 py-20 md:grid-cols-12 md:gap-x-10 md:py-28">
 
-          {/* Left — form */}
+          {/* Left - form */}
           <RevealOnScroll className="md:col-span-7">
             <div>
               <h1 className="font-display text-[clamp(2rem,6vw,4rem)] font-light leading-[0.95] tracking-[-0.02em] mb-10">
@@ -40,7 +41,7 @@ export default function ContactPage() {
             </div>
           </RevealOnScroll>
 
-          {/* Right — info */}
+          {/* Right - info */}
           <RevealOnScroll className="md:col-span-4 md:col-start-9" delay={150}>
             <div className="space-y-10">
               {/* Address */}

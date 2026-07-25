@@ -31,12 +31,12 @@ export default function AdminPage() {
   const categories = Array.from(new Set(items.map((e) => e.category)));
 
   return (
-    <main className="mx-auto max-w-3xl px-6 py-16 font-mono">
+    <div className="mx-auto max-w-3xl px-6 py-16 font-mono">
       <div className="mb-12 border-b border-espresso pb-4">
         <p className="text-[10px] uppercase tracking-[0.2em] text-espresso/50">Cafe Botanica</p>
         <h1 className="mt-1 font-display text-3xl font-bold">86 Board</h1>
         <p className="mt-2 text-[12px] text-espresso/60">
-          Toggle items off when they run out. Changes live in memory — restart to reset.
+          Toggle items off when they run out. Changes live in memory. Restart to reset.
         </p>
       </div>
 
@@ -46,7 +46,7 @@ export default function AdminPage() {
           <ul className="space-y-px">
             {items
               .filter((e) => e.category === cat)
-              .map((entry, localIdx) => {
+              .map((entry) => {
                 const globalIdx = items.indexOf(entry);
                 return (
                   <li
@@ -87,6 +87,6 @@ export default function AdminPage() {
       <p className="mt-16 text-[11px] text-espresso/30">
         Production: wire toggle to PATCH /api/menu/:id and persist to your data store.
       </p>
-    </main>
+    </div>
   );
 }

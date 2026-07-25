@@ -1,13 +1,16 @@
-import Image from "next/image";
 import { menu } from "@/data/botanica";
 import type { MenuCategory } from "@/types";
 import RevealOnScroll from "./RevealOnScroll";
+import Photo from "./Photo";
 
-const CATEGORY_PHOTOS: Record<string, { src: string; alt: string; caption: string }> = {
-  Morning:    { src: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/photos/gallery-espresso.jpg`, alt: "Espresso pulled short at the bar",        caption: "06:45 — bar service" },
-  Midday:     { src: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/photos/gallery-table.jpg`,   alt: "Table two before the midday service",     caption: "Table two, before service" },
-  Bakery:     { src: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/photos/gallery-buns.jpg`,    alt: "Cardamom buns at 06:45",                  caption: "Baked overnight" },
-  Botanicals: { src: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/photos/gallery-herbs.jpg`,   alt: "Herbs before harvest",                    caption: "Greenhouse row" },
+const CATEGORY_PHOTOS: Record<
+  string,
+  { src: string; alt: string; caption: string; width: number; height: number }
+> = {
+  Morning:    { src: "/photos/gallery-espresso.jpg", alt: "Espresso pulled short at the bar",    caption: "06:45 · bar service",        width: 900, height: 1184 },
+  Midday:     { src: "/photos/gallery-table.jpg",   alt: "Table two before the midday service", caption: "Table two, before service",  width: 900, height: 600 },
+  Bakery:     { src: "/photos/gallery-buns.jpg",    alt: "Cardamom buns at 06:45",              caption: "Baked overnight",            width: 900, height: 600 },
+  Botanicals: { src: "/photos/gallery-herbs.jpg",   alt: "Herbs before harvest",                caption: "Greenhouse row",             width: 900, height: 600 },
 };
 
 function DotLeader() {
@@ -47,17 +50,18 @@ function Row({ name, description, price, tag, isAvailable }: MenuCategory["items
   );
 }
 
-function PhotoMount({ src, alt, caption }: { src: string; alt: string; caption: string }) {
+function PhotoMount({ src, alt, caption, width, height }: { src: string; alt: string; caption: string; width: number; height: number }) {
   return (
     <figure className="mt-7 group photo-mount" style={{ transform: "rotate(-0.6deg)" }}>
       <div className="border border-[rgba(44,42,41,0.28)] p-1.25 bg-linen">
         <div className="border border-[rgba(44,42,41,0.12)] relative overflow-hidden aspect-3/2 md:aspect-4/5">
-          <Image
+          <Photo
             src={src}
             alt={alt}
-            fill
+            width={width}
+            height={height}
             sizes="(max-width: 768px) 80vw, 220px"
-            className="object-cover film-frame"
+            className="absolute inset-0 h-full w-full object-cover film-frame"
           />
           <span aria-hidden className="absolute top-1.5 left-1.5 w-3 h-3 border-t border-l border-[rgba(44,42,41,0.3)] pointer-events-none" />
           <span aria-hidden className="absolute bottom-1.5 right-1.5 w-3 h-3 border-b border-r border-[rgba(44,42,41,0.3)] pointer-events-none" />
@@ -76,7 +80,7 @@ function Category({ name, note, items, index }: MenuCategory & { index: number }
 
   return (
     <section className="grid grid-cols-1 gap-y-6 md:grid-cols-12 md:gap-x-12 pt-10 pb-12 border-t border-[rgba(44,42,41,0.18)]">
-      {/* Left column — slides in from left */}
+      {/* Left column - slides in from left */}
       <RevealOnScroll direction="left" className="md:col-span-3 flex flex-col">
         <span className="font-mono text-eyebrow tracking-[0.22em] text-espresso/65 uppercase mb-2.5">
           {indexLabel}
@@ -88,11 +92,11 @@ function Category({ name, note, items, index }: MenuCategory & { index: number }
           {note}
         </p>
         {photo && (
-          <PhotoMount src={photo.src} alt={photo.alt} caption={photo.caption} />
+          <PhotoMount src={photo.src} alt={photo.alt} caption={photo.caption} width={photo.width} height={photo.height} />
         )}
       </RevealOnScroll>
 
-      {/* Right column — stagger items */}
+      {/* Right column - stagger items */}
       <RevealOnScroll stagger delay={80} className="md:col-span-9 pt-2 md:pt-13">
         <ul>
           {items.map((item) => (
@@ -111,7 +115,7 @@ export default function MenuLedger() {
         {/* Ledger header */}
         <RevealOnScroll direction="fade">
           <div className="flex items-baseline justify-between border-b border-[rgba(44,42,41,0.18)] pb-4 pt-10 md:pt-14 font-mono text-caption uppercase tracking-[0.22em] text-espresso/80">
-            <span>The Ledger</span>
+            <h2 className="font-mono text-caption uppercase tracking-[0.22em]">The Ledger</h2>
             <span>Prices in USD</span>
           </div>
         </RevealOnScroll>

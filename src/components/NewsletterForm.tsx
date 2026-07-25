@@ -17,7 +17,11 @@ export default function NewsletterForm() {
 
   if (submitted) {
     return (
-      <p className="font-mono text-body text-linen/90 border border-linen/25 px-4 py-3">
+      <p
+        role="status"
+        aria-live="polite"
+        className="font-mono text-body text-linen/90 border border-linen/25 px-4 py-3"
+      >
         On the list. Watch for Sunday&apos;s post.
       </p>
     );
@@ -25,14 +29,19 @@ export default function NewsletterForm() {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-3 sm:flex-row">
+      <label htmlFor="newsletter-email" className="sr-only">
+        Email address
+      </label>
       <input
+        id="newsletter-email"
         type="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder="your@email.com"
         required
+        autoComplete="email"
         disabled={submitting}
-        className="flex-1 border border-linen/25 bg-linen/5 px-4 py-3 font-mono text-body text-linen placeholder:text-linen/45 focus:border-linen/60 focus:outline-none transition-colors duration-150 disabled:opacity-60"
+        className="flex-1 border border-linen/25 bg-linen/5 px-4 py-3 font-mono text-body text-linen placeholder:text-linen/60 focus:border-linen/60 focus:outline-none transition-colors duration-150 disabled:opacity-60"
       />
       <button
         type="submit"

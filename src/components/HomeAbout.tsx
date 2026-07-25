@@ -1,18 +1,21 @@
 import Link from "next/link";
 import RevealOnScroll from "./RevealOnScroll";
+import Photo from "./Photo";
 
 export default function HomeAbout() {
   return (
     <section className="border-t border-espresso/20">
       <div className="mx-auto max-w-6xl px-6">
         <div className="grid grid-cols-1 gap-y-10 py-16 md:grid-cols-12 md:gap-x-12 md:py-24">
-          {/* Photo — slides in from left */}
+          {/* Photo - slides in from left */}
           <RevealOnScroll direction="left" className="md:col-span-5">
             <div className="border border-espresso/30 overflow-hidden photo-mount" style={{ aspectRatio: "4/5", transform: "rotate(-0.4deg)" }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/photos/about-interior.jpg`}
+              <Photo
+                src="/photos/about-interior.jpg"
                 alt="118 Greenhouse Row interior"
+                width={900}
+                height={675}
+                sizes="(max-width: 768px) 100vw, 42vw"
                 className="h-full w-full object-cover transition-transform duration-700"
                 style={{ filter: "sepia(20%) contrast(105%) saturate(110%)" }}
               />
@@ -22,7 +25,7 @@ export default function HomeAbout() {
             </p>
           </RevealOnScroll>
 
-          {/* Text — slides in from right, delayed */}
+          {/* Text - slides in from right, delayed */}
           <RevealOnScroll direction="right" delay={120} className="flex flex-col justify-center md:col-span-6 md:col-start-7">
             <blockquote className="font-display text-[clamp(1.75rem,4vw,3rem)] font-light leading-[1.08] tracking-[-0.01em] italic text-espresso mb-8">
               We are not a third wave coffee concept. We are a place.

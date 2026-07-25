@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { cafeName } from "@/data/botanica";
 
 export const metadata: Metadata = {
+  alternates: { canonical: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/terms` },
   title: "Terms of Use",
   description: "Terms of use for Cafe Botanica.",
 };
@@ -10,8 +11,8 @@ export default function TermsPage() {
   return (
     <div className="mx-auto max-w-3xl px-6">
       <div className="flex items-baseline justify-between border-b border-espresso py-4 font-mono text-eyebrow uppercase tracking-[0.18em]">
-        <span>Terms of Use</span>
-        <span className="text-espresso/40">Last updated June 2026</span>
+        <h1 className="font-mono text-eyebrow uppercase tracking-[0.18em]">Terms of Use</h1>
+        <span className="text-espresso/70">Last updated June 2026</span>
       </div>
 
       <div className="py-16 space-y-10 font-mono text-body-sm leading-[1.9] text-espresso/80">

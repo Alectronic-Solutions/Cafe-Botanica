@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import NewsletterForm from './NewsletterForm'
+import MapEmbed from './MapEmbed'
 import {
   cafeName,
   cafeAddress,
@@ -21,7 +22,7 @@ export default function SiteFooter() {
           <p className="font-display text-display font-light leading-none tracking-[-0.02em] text-linen/90">
             {cafeName}
           </p>
-          <p className="mt-3 font-mono text-eyebrow uppercase tracking-[0.18em] text-linen/55">
+          <p className="mt-3 font-mono text-eyebrow uppercase tracking-[0.18em] text-linen/70">
             {cafeAddress} · Est. {established}
           </p>
         </div>
@@ -30,26 +31,21 @@ export default function SiteFooter() {
         <div className="grid grid-cols-1 gap-6 border-b border-linen/15 py-10 md:grid-cols-2 md:gap-10 md:py-14">
           {/* Embedded map */}
           <div>
-            <p className="mb-4 font-mono text-eyebrow uppercase tracking-[0.2em] text-terracotta">
+            <p className="mb-4 font-mono text-eyebrow uppercase tracking-[0.2em] text-terracotta-light">
               Find us
             </p>
             <div className="border border-linen/15 overflow-hidden" style={{ aspectRatio: "16/7" }}>
-              <iframe
+              <MapEmbed
                 title="Cafe Botanica map"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3316.0!2d-84.3879!3d33.7623!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s118+Greenhouse+Row+Atlanta+GA!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus"
-                width="100%"
-                height="100%"
-                style={{ border: 0, filter: "grayscale(100%) contrast(1.1) sepia(20%)" }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
+                label={`${cafeAddress}, ${cafeCity}`}
               />
             </div>
             <a
               href="https://maps.google.com/?q=118+Greenhouse+Row+Atlanta+GA"
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-3 inline-block font-mono text-eyebrow uppercase tracking-[0.16em] text-linen/55 hover:text-terracotta transition-colors duration-150"
+              className="mt-3 inline-block font-mono text-eyebrow uppercase tracking-[0.16em] text-linen/70 hover:text-terracotta-light transition-colors duration-150"
             >
               Open in Maps
             </a>
@@ -58,7 +54,7 @@ export default function SiteFooter() {
           {/* Newsletter */}
           <div className="flex flex-col justify-between">
             <div>
-              <p className="mb-4 font-mono text-eyebrow uppercase tracking-[0.2em] text-terracotta">
+              <p className="mb-4 font-mono text-eyebrow uppercase tracking-[0.2em] text-terracotta-light">
                 The weekly post
               </p>
               <p className="font-mono text-body leading-[1.85] text-linen/75 mb-6" style={{ maxWidth: "340px" }}>
@@ -66,19 +62,19 @@ export default function SiteFooter() {
                 from the counter. One email a week, never more.
               </p>
               <NewsletterForm />
-              <p className="mt-3 font-mono text-eyebrow text-linen/50">
+              <p className="mt-3 font-mono text-eyebrow text-linen/70">
                 No spam. Unsubscribe any time.
               </p>
             </div>
           </div>
         </div>
 
-        {/* Info grid — 12 col asymmetric */}
+        {/* Info grid - 12 col asymmetric */}
         <div className="grid grid-cols-1 gap-10 py-12 md:grid-cols-12 md:gap-0 md:py-14">
 
-          {/* Contact — 4 cols */}
+          {/* Contact - 4 cols */}
           <div className="md:col-span-4">
-            <p className="mb-5 font-mono text-eyebrow uppercase tracking-[0.2em] text-terracotta">
+            <p className="mb-5 font-mono text-eyebrow uppercase tracking-[0.2em] text-terracotta-light">
               Contact
             </p>
             <address className="font-mono text-body leading-loose not-italic text-linen/75">
@@ -87,13 +83,13 @@ export default function SiteFooter() {
             </address>
             <a
               href={`tel:${cafePhone}`}
-              className="mt-2 block font-mono text-body text-linen/75 hover:text-terracotta transition-colors duration-150"
+              className="mt-2 block font-mono text-body text-linen/75 hover:text-terracotta-light transition-colors duration-150"
             >
               (404) 555-0174
             </a>
             <a
               href="mailto:hello@cafebotanica.com"
-              className="mt-1 block font-mono text-body text-linen/75 hover:text-terracotta transition-colors duration-150"
+              className="mt-1 block font-mono text-body text-linen/75 hover:text-terracotta-light transition-colors duration-150"
             >
               hello@cafebotanica.com
             </a>
@@ -104,18 +100,18 @@ export default function SiteFooter() {
               ].map(({ label }) => (
                 <span
                   key={label}
-                  className="font-mono text-eyebrow uppercase tracking-[0.16em] text-linen/30 cursor-default select-none"
-                  aria-label={`${label} — coming soon`}
+                  className="font-mono text-eyebrow uppercase tracking-[0.16em] text-linen/60 cursor-default select-none"
+                  title={`${label} · coming soon`}
                 >
-                  {label}
+                  {label} <span className="text-linen/45">(soon)</span>
                 </span>
               ))}
             </div>
           </div>
 
-          {/* Hours — 4 cols */}
+          {/* Hours - 4 cols */}
           <div className="md:col-span-4">
-            <p className="mb-5 font-mono text-eyebrow uppercase tracking-[0.2em] text-terracotta">
+            <p className="mb-5 font-mono text-eyebrow uppercase tracking-[0.2em] text-terracotta-light">
               Hours
             </p>
             <dl className="font-mono text-body">
@@ -125,19 +121,19 @@ export default function SiteFooter() {
                   <dd className="tabular-nums text-linen/85">
                     {d.open && d.close
                       ? `${d.open} – ${d.close}`
-                      : <span className="text-linen/50">Closed</span>}
+                      : <span className="text-linen/70">Closed</span>}
                   </dd>
                 </div>
               ))}
             </dl>
-            <p className="mt-4 font-mono text-caption text-linen/55 leading-snug">
+            <p className="mt-4 font-mono text-caption text-linen/70 leading-snug">
               {hours.note}
             </p>
           </div>
 
-          {/* Explore — 3 cols, offset */}
+          {/* Explore - 3 cols, offset */}
           <div className="md:col-span-3 md:col-start-10">
-            <p className="mb-5 font-mono text-eyebrow uppercase tracking-[0.2em] text-terracotta">
+            <p className="mb-5 font-mono text-eyebrow uppercase tracking-[0.2em] text-terracotta-light">
               Explore
             </p>
             <ul className="font-mono text-body space-y-3">
@@ -158,16 +154,16 @@ export default function SiteFooter() {
           </div>
         </div>
 
-        {/* Bottom bar — legal */}
+        {/* Bottom bar - legal */}
         <div className="border-t border-linen/10 py-6 space-y-3 md:space-y-0 md:flex md:items-center md:justify-between">
           {/* Row 1 on mobile: copyright + back to top */}
           <div className="flex items-center justify-between md:contents">
-            <span className="font-mono text-eyebrow text-linen/50">
+            <span className="font-mono text-eyebrow text-linen/70">
               &copy; {new Date().getFullYear()} {cafeName}. All rights reserved.
             </span>
             <a
-              href="#"
-              className="font-mono text-eyebrow text-linen/50 hover:text-linen/80 transition-colors duration-150 md:border-l md:border-linen/20 md:pl-6 md:order-last"
+              href="#main-content"
+              className="font-mono text-eyebrow text-linen/70 hover:text-linen transition-colors duration-150 md:border-l md:border-linen/20 md:pl-6 md:order-last"
             >
               Back to top
             </a>
@@ -182,7 +178,7 @@ export default function SiteFooter() {
               <Link
                 key={href}
                 href={href}
-                className="font-mono text-eyebrow text-linen/50 hover:text-linen/80 transition-colors duration-150"
+                className="font-mono text-eyebrow text-linen/70 hover:text-linen/80 transition-colors duration-150"
               >
                 {label}
               </Link>

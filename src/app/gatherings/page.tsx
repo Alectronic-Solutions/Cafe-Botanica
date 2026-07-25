@@ -3,6 +3,7 @@ import Gatherings from "@/components/Gatherings";
 import RevealOnScroll from "@/components/RevealOnScroll";
 
 export const metadata: Metadata = {
+  alternates: { canonical: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/gatherings` },
   title: "Gatherings",
   description:
     "Upcoming events at Cafe Botanica: tastings, suppers, and workshops. Small groups, by reservation.",
@@ -14,7 +15,7 @@ export default function GatheringsPage() {
       {/* Label bar */}
       <div className="mx-auto max-w-6xl px-6">
         <div className="flex items-baseline justify-between border-b border-espresso py-4 font-mono text-caption uppercase tracking-[0.18em]">
-          <span>Gatherings</span>
+          <h1 className="font-mono text-caption uppercase tracking-[0.18em]">Gatherings</h1>
           <span>By reservation only</span>
         </div>
       </div>
@@ -28,9 +29,9 @@ export default function GatheringsPage() {
           <div className="mx-auto max-w-6xl px-6">
             <div className="grid grid-cols-1 gap-y-10 py-20 md:grid-cols-12 md:gap-x-10">
               <div className="md:col-span-7">
-                <p className="font-mono text-caption uppercase tracking-[0.14em] text-terracotta mb-5">
+                <h2 className="font-mono text-caption uppercase tracking-[0.14em] text-terracotta mb-5">
                   How to reserve
-                </p>
+                </h2>
                 <div className="space-y-4 font-mono text-body leading-[1.85] text-espresso/85" style={{ maxWidth: "480px" }}>
                   <p>
                     All gatherings are small. The largest table seats sixteen. Write us
@@ -60,14 +61,14 @@ export default function GatheringsPage() {
                   </p>
                   <ul className="font-mono text-body leading-[1.9] text-espresso/85 space-y-2">
                     {[
-                      "Small groups — 10 to 16 seats",
+                      "Small groups of 10 to 16 seats",
                       "Doors open fifteen minutes before start",
                       "Duration: two to three hours",
                       "Drinks and food included in cost",
                       "Wheelchair accessible",
                     ].map((item) => (
                       <li key={item} className="flex gap-3">
-                        <span className="text-terracotta shrink-0">—</span>
+                        <span className="text-terracotta shrink-0" aria-hidden>·</span>
                         {item}
                       </li>
                     ))}

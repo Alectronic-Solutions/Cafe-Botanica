@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import RevealOnScroll from "@/components/RevealOnScroll";
+import Photo from "@/components/Photo";
 
 export const metadata: Metadata = {
+  alternates: { canonical: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/about` },
   title: "About",
   description:
     "Cafe Botanica has been an espresso bar and bakery on Greenhouse Row since 1974. The story behind the space, the sourcing, and the room.",
@@ -18,7 +20,7 @@ export default function About() {
         </div>
       </div>
 
-      {/* Founding — asymmetric 7/5 grid */}
+      {/* Founding - asymmetric 7/5 grid */}
       <RevealOnScroll>
         <div className="mx-auto max-w-6xl px-6">
           <div className="grid grid-cols-1 gap-y-12 py-24 md:grid-cols-12 md:gap-x-10 md:py-32">
@@ -50,10 +52,12 @@ export default function About() {
             {/* Photograph */}
             <div className="col-span-1 md:col-span-5">
               <div className="border border-espresso overflow-hidden" style={{ aspectRatio: "3/4" }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/photos/about-interior.jpg`}
+                <Photo
+                  src="/photos/about-interior.jpg"
                   alt="118 Greenhouse Row interior, 1974"
+                  width={900}
+                  height={675}
+                  sizes="(max-width: 768px) 100vw, 42vw"
                   className="h-full w-full object-cover"
                   style={{ filter: "sepia(20%) contrast(105%) saturate(110%)" }}
                 />

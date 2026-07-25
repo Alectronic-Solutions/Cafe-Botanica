@@ -15,11 +15,32 @@ export default function ContactForm() {
     setSubmitted(true)
   }
 
+  const dialogRef = useRef<HTMLDivElement>(null)
+
   useEffect(() => {
     if (!submitted) return
     closeBtnRef.current?.focus()
     function onKeyDown(e: KeyboardEvent) {
-      if (e.key === 'Escape') setSubmitted(false)
+      if (e.key === 'Escape') {
+        setSubmitted(false)
+        return
+      }
+      // Trap Tab focus within the dialog.
+      if (e.key === 'Tab' && dialogRef.current) {
+        const focusable = dialogRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])'
+        )
+        if (focusable.length === 0) return
+        const first = focusable[0]
+        const last = focusable[focusable.length - 1]
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault()
+          last.focus()
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault()
+          first.focus()
+        }
+      }
     }
     document.addEventListener('keydown', onKeyDown)
     return () => document.removeEventListener('keydown', onKeyDown)
@@ -82,6 +103,7 @@ export default function ContactForm() {
           onClick={() => setSubmitted(false)}
         >
           <div
+            ref={dialogRef}
             role="dialog"
             aria-modal="true"
             aria-labelledby="contact-confirm-heading"
@@ -91,9 +113,9 @@ export default function ContactForm() {
             <p className="font-mono text-eyebrow uppercase tracking-[0.2em] text-terracotta mb-6">
               Message received
             </p>
-            <p id="contact-confirm-heading" className="font-display text-[2rem] leading-tight text-espresso mb-4">
+            <h2 id="contact-confirm-heading" className="font-display text-[2rem] leading-tight text-espresso mb-4">
               Thank you.
-            </p>
+            </h2>
             <p className="font-mono text-body-sm leading-[1.8] text-espresso/70 mb-8">
               We will write back within two business days.
             </p>

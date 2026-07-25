@@ -9,11 +9,13 @@ function todayLabel(): string {
 }
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+const heroPoster = `${basePath}/hero.jpg`;
 const heroVideos = [
   `${basePath}/hero-1.mp4`,
   `${basePath}/hero-2.mp4`,
   `${basePath}/hero-3.mp4`,
 ];
+const heroFilter = "sepia(0.6) contrast(1.05) saturate(0.8) brightness(0.72)";
 
 export default function Hero() {
   const today = todayLabel();
@@ -24,37 +26,42 @@ export default function Hero() {
       : "Closed today";
 
   const imgRef = useRef<HTMLDivElement>(null);
-  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [reducedMotion, setReducedMotion] = useState(false);
+  // Default to the still image; only opt into video once we've confirmed the
+  // client wants motion and isn't on a metered/Save-Data connection.
+  const [playVideo, setPlayVideo] = useState(false);
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    setReducedMotion(reduced);
+    const conn = (
+      navigator as Navigator & { connection?: { saveData?: boolean } }
+    ).connection;
+    const saveData = conn?.saveData === true;
+    // Client-only capability check: SSR renders the still image (playVideo=false)
+    // and we opt into video here only when motion is welcome and data is not
+    // constrained. This one-time sync with matchMedia/connection is the intended
+    // use of an effect, not a cascading-render smell.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setPlayVideo(!reduced && !saveData);
     if (reduced) return;
 
+    let raf = 0;
     const onScroll = () => {
-      if (imgRef.current) {
-        imgRef.current.style.transform = `translateY(${window.scrollY * 0.35}px)`;
-      }
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        if (imgRef.current) {
+          imgRef.current.style.transform = `translateY(${window.scrollY * 0.35}px)`;
+        }
+      });
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, []);
-
-  useEffect(() => {
-    if (reducedMotion) return;
-    videoRefs.current.forEach((video, i) => {
-      if (!video) return;
-      if (i === activeIndex) {
-        video.currentTime = 0;
-        video.play().catch(() => {});
-      } else {
-        video.pause();
-      }
-    });
-  }, [activeIndex, reducedMotion]);
 
   return (
     <header className="relative h-[calc(100dvh-4.5rem)] overflow-hidden border-b border-espresso/20">
@@ -64,33 +71,35 @@ export default function Hero() {
         className="absolute inset-0 h-[130%] w-full will-change-transform"
         style={{ top: "-15%" }}
       >
-        {reducedMotion ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={`${basePath}/hero.jpg`}
-            alt="The counter at Cafe Botanica, early morning"
+        {playVideo ? (
+          // Only the active clip is in the DOM/network at a time. The poster
+          // (hero.jpg) paints instantly as the LCP and bridges each clip swap,
+          // so there is no black flash between videos.
+          <video
+            key={activeIndex}
+            src={heroVideos[activeIndex]}
+            poster={heroPoster}
+            muted
+            playsInline
+            autoPlay
+            preload="auto"
+            onEnded={() =>
+              setActiveIndex((current) => (current + 1) % heroVideos.length)
+            }
             className="h-full w-full object-cover"
-            style={{ filter: "sepia(0.6) contrast(1.05) saturate(0.8) brightness(0.72)" }}
+            style={{ filter: heroFilter }}
           />
         ) : (
-          heroVideos.map((src, i) => (
-            <video
-              key={src}
-              ref={(el) => {
-                videoRefs.current[i] = el;
-              }}
-              src={src}
-              muted
-              playsInline
-              autoPlay={i === 0}
-              onEnded={() => setActiveIndex((current) => (current + 1) % heroVideos.length)}
-              className="absolute inset-0 h-full w-full object-cover transition-opacity duration-1500 ease-in-out"
-              style={{
-                filter: "sepia(0.6) contrast(1.05) saturate(0.8) brightness(0.72)",
-                opacity: i === activeIndex ? 1 : 0,
-              }}
-            />
-          ))
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={heroPoster}
+            alt="The counter at Cafe Botanica, early morning"
+            width={1800}
+            height={1200}
+            fetchPriority="high"
+            className="h-full w-full object-cover"
+            style={{ filter: heroFilter }}
+          />
         )}
       </div>
 
@@ -99,7 +108,7 @@ export default function Hero() {
 
       {/* Content */}
       <div className="relative z-10 mx-auto flex h-full max-w-6xl flex-col px-6">
-        {/* Top rule — border draws in via hero-rule */}
+        {/* Top rule - border draws in via hero-rule */}
         <div className="hero-rule flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 border-b border-espresso/30 py-3 font-mono text-eyebrow uppercase tracking-[0.18em] text-espresso">
           <span>Cafe Botanica</span>
           <span>Est. {established}</span>
@@ -111,7 +120,7 @@ export default function Hero() {
         <div className="grid flex-1 grid-cols-1 items-center gap-y-8 md:grid-cols-12 md:gap-y-0">
           <h1
             className="hero-animate col-span-1 font-display text-h1 font-medium leading-[0.98] tracking-[-0.015em] text-espresso md:col-span-8"
-            /* Legibility scrim behind display type over photo/video — not a decorative shadow */
+            /* Legibility scrim behind display type over photo/video - not a decorative shadow */
             style={{ textShadow: "0 0 24px rgba(247,244,238,0.85), 0 0 10px rgba(247,244,238,0.95)" }}
           >
             Coffee, bread,
