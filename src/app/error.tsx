@@ -2,31 +2,31 @@
 
 import Link from "next/link";
 
-export default function Error({
+export default function ErrorPage({
   reset,
 }: {
   error: Error & { digest?: string }
   reset: () => void
 }) {
   return (
-    <div className="mx-auto max-w-6xl px-6 py-32">
-      <div className="flex items-baseline justify-between border-b border-espresso py-4 font-mono text-caption uppercase tracking-[0.18em]">
+    <div className="mx-auto max-w-6xl px-6 py-14 md:py-32">
+      <div className="label-bar border-b border-espresso py-4 font-mono text-caption uppercase tracking-[0.18em]">
         <span>Error</span>
         <span>Something went wrong</span>
       </div>
 
-      <div className="grid grid-cols-1 py-24 md:grid-cols-12">
+      <div className="grid grid-cols-1 gap-y-8 py-16 text-center md:grid-cols-12 md:py-24 md:text-left">
         <h1 className="col-span-1 font-display text-[clamp(4rem,12vw,9rem)] font-light leading-[0.9] tracking-[-0.02em] md:col-span-7">
           Something broke.
         </h1>
-        <div className="col-span-1 flex items-end md:col-span-5">
-          <p className="font-mono text-body-sm leading-[1.8]" style={{ maxWidth: "280px" }}>
+        <div className="col-span-1 flex items-end justify-center md:col-span-5 md:justify-start">
+          <p className="font-mono text-body-sm leading-[1.8]" style={{ maxWidth: "300px" }}>
             An error occurred on this page. Try reloading, or head back to the counter.
           </p>
         </div>
       </div>
 
-      <div className="border-t border-espresso/20 pt-6 flex gap-8">
+      <div className="border-t border-espresso/20 pt-6 flex justify-center gap-8 md:justify-start">
         <button
           onClick={reset}
           className="nav-link font-mono text-caption uppercase tracking-[0.16em] text-espresso"

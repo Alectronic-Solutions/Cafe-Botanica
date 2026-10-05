@@ -9,7 +9,7 @@ export default function HomeAbout() {
         <div className="grid grid-cols-1 gap-y-10 py-16 md:grid-cols-12 md:gap-x-12 md:py-24">
           {/* Photo - slides in from left */}
           <RevealOnScroll direction="left" className="md:col-span-5">
-            <div className="border border-espresso/30 overflow-hidden photo-mount" style={{ aspectRatio: "4/5", transform: "rotate(-0.4deg)" }}>
+            <div className="mx-auto max-w-sm border border-espresso/30 overflow-hidden photo-mount md:max-w-none" style={{ aspectRatio: "4/5", transform: "rotate(-0.4deg)" }}>
               <Photo
                 src="/photos/about-interior.jpg"
                 alt="118 Greenhouse Row interior"
@@ -20,24 +20,24 @@ export default function HomeAbout() {
                 style={{ filter: "sepia(20%) contrast(105%) saturate(110%)" }}
               />
             </div>
-            <p className="font-mono text-eyebrow uppercase tracking-[0.16em] text-espresso/60 mt-3">
+            <p className="font-mono text-eyebrow uppercase tracking-[0.16em] text-espresso/60 mt-3 text-center md:text-left">
               118 Greenhouse Row · Est. 1974
             </p>
           </RevealOnScroll>
 
           {/* Text - slides in from right, delayed */}
-          <RevealOnScroll direction="right" delay={120} className="flex flex-col justify-center md:col-span-6 md:col-start-7">
+          <RevealOnScroll direction="right" delay={120} className="flex flex-col items-center justify-center text-center md:col-span-6 md:col-start-7 md:items-start md:text-left">
             <blockquote className="font-display text-[clamp(1.75rem,4vw,3rem)] font-light leading-[1.08] tracking-[-0.01em] italic text-espresso mb-8">
               We are not a third wave coffee concept. We are a place.
             </blockquote>
-            <p className="font-mono text-body leading-[1.9] text-espresso/85 mb-8" style={{ maxWidth: "380px" }}>
+            <p className="font-mono text-body leading-[1.9] text-espresso/85 mb-8 max-w-[380px]">
               Margaret Hollis opened the doors in the autumn of 1974. The space
               has changed hands twice since then, each time to someone who
               understood what it was trying to be.
             </p>
             <Link
               href="/about"
-              className="font-mono text-caption uppercase tracking-[0.18em] text-terracotta hover:underline transition-colors duration-150 self-start"
+              className="border-b border-espresso pb-1 font-mono text-caption uppercase tracking-[0.18em] text-espresso transition-colors duration-150 hover:border-terracotta hover:text-terracotta"
             >
               Read the story
             </Link>

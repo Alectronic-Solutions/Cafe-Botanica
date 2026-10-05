@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function AccessibilityPage() {
   return (
     <div className="mx-auto max-w-3xl px-6">
-      <div className="flex items-baseline justify-between border-b border-espresso py-4 font-mono text-eyebrow uppercase tracking-[0.18em]">
+      <div className="label-bar border-b border-espresso py-4 font-mono text-eyebrow uppercase tracking-[0.18em]">
         <h1 className="font-mono text-eyebrow uppercase tracking-[0.18em]">Accessibility</h1>
         <span className="text-espresso/70">Last updated June 2026</span>
       </div>

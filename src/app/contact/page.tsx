@@ -22,19 +22,19 @@ export default function ContactPage() {
     <div>
       {/* Label bar */}
       <div className="mx-auto max-w-6xl px-6">
-        <div className="flex items-baseline justify-between border-b border-espresso py-4 font-mono text-caption uppercase tracking-[0.18em]">
+        <div className="label-bar border-b border-espresso py-4 font-mono text-caption uppercase tracking-[0.18em]">
           <span>Contact</span>
           <span>Atlanta, GA</span>
         </div>
       </div>
 
       <div className="mx-auto max-w-6xl px-6">
-        <div className="grid grid-cols-1 gap-y-16 py-20 md:grid-cols-12 md:gap-x-10 md:py-28">
+        <div className="grid grid-cols-1 gap-y-16 py-14 md:grid-cols-12 md:gap-x-10 md:py-28">
 
           {/* Left - form */}
           <RevealOnScroll className="md:col-span-7">
             <div>
-              <h1 className="font-display text-[clamp(2rem,6vw,4rem)] font-light leading-[0.95] tracking-[-0.02em] mb-10">
+              <h1 className="mb-10 text-center font-display text-[clamp(2.75rem,9vw,4.5rem)] font-light leading-[0.95] tracking-[-0.02em] md:text-left">
                 Write to us.
               </h1>
               <ContactForm />
@@ -43,13 +43,13 @@ export default function ContactPage() {
 
           {/* Right - info */}
           <RevealOnScroll className="md:col-span-4 md:col-start-9" delay={150}>
-            <div className="space-y-10">
+            <div className="space-y-10 border-t border-espresso pt-12 text-center md:border-t-0 md:pt-0 md:text-left">
               {/* Address */}
               <div>
                 <p className="font-mono text-caption uppercase tracking-[0.14em] text-terracotta mb-3">
                   Find us
                 </p>
-                <address className="font-mono text-body leading-[1.9] not-italic text-espresso/85">
+                <address className="font-mono text-body leading-[1.9] not-italic text-balance text-espresso/85">
                   {cafeAddress}<br />
                   {cafeCity}, {cafeRegion} {cafePostal}
                 </address>
@@ -74,7 +74,7 @@ export default function ContactPage() {
                 <p className="font-mono text-caption uppercase tracking-[0.14em] text-terracotta mb-3">
                   Hours
                 </p>
-                <dl className="font-mono text-body leading-[1.9]">
+                <dl id="hours" className="mx-auto max-w-xs text-left font-mono text-body leading-[1.9] md:mx-0 md:max-w-none">
                   {hours.schedule.map((d) => (
                     <div key={d.day} className="flex justify-between gap-4 border-b border-espresso/15 py-2 last:border-b-0">
                       <dt className="text-espresso/70">{d.day}</dt>

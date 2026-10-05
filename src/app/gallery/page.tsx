@@ -29,7 +29,7 @@ export default function GalleryPage() {
     <div>
       {/* Label bar */}
       <div className="mx-auto max-w-6xl px-6">
-        <div className="flex items-baseline justify-between border-b border-espresso py-4 font-mono text-caption uppercase tracking-[0.18em]">
+        <div className="label-bar border-b border-espresso py-4 font-mono text-caption uppercase tracking-[0.18em]">
           <span>Gallery</span>
           <span>118 Greenhouse Row</span>
         </div>
@@ -37,15 +37,15 @@ export default function GalleryPage() {
 
       {/* Intro */}
       <RevealOnScroll>
-        <div className="mx-auto max-w-6xl px-6 pt-16 pb-12">
-          <div className="grid grid-cols-1 md:grid-cols-12">
+        <div className="mx-auto max-w-6xl px-6 pt-14 pb-12 md:pt-16">
+          <div className="grid grid-cols-1 text-center md:grid-cols-12 md:text-left">
             <div className="md:col-span-7">
-              <h1 className="font-display text-[clamp(2rem,6vw,4.5rem)] font-light leading-[0.95] tracking-[-0.02em]">
+              <h1 className="font-display text-[clamp(2.75rem,9vw,4.5rem)] font-light leading-[0.95] tracking-[-0.02em]">
                 The room,<br />the counter,<br />the light.
               </h1>
             </div>
-            <div className="md:col-span-4 md:col-start-9 flex items-end pt-8 md:pt-0">
-              <p className="font-mono text-body leading-[1.8] text-espresso/80" style={{ maxWidth: "260px" }}>
+            <div className="md:col-span-4 md:col-start-9 flex items-end justify-center pt-8 md:justify-start md:pt-0">
+              <p className="max-w-[260px] font-mono text-body leading-[1.8] text-espresso/80">
                 Film stills from fifty years on Greenhouse Row. The space does not change quickly. Neither do we.
               </p>
             </div>
@@ -55,7 +55,7 @@ export default function GalleryPage() {
 
       {/* Gallery grid */}
       <RevealOnScroll>
-        <div className="mx-auto max-w-6xl px-6 pb-24">
+        <div className="pb-24">
           <FilmGallery frames={frames} />
         </div>
       </RevealOnScroll>

@@ -19,6 +19,18 @@ export const siteUrl = `${siteOrigin}${sitePath}`;
 // Back-compat alias - the canonical public address of the cafe's site.
 export const cafeUrl = siteUrl;
 
+// The cafe keeps Atlanta time, whatever clock the visitor's phone is on.
+export const cafeTimeZone = "America/New_York";
+
+export const navLinks = [
+  { label: "Home", href: "/" },
+  { label: "Menu", href: "/menu" },
+  { label: "About", href: "/about" },
+  { label: "Gatherings", href: "/gatherings" },
+  { label: "Gallery", href: "/gallery" },
+  { label: "Contact", href: "/contact" },
+] as const;
+
 export const menu: MenuCategory[] = [
   {
     name: "Morning",
@@ -147,21 +159,21 @@ export const menu: MenuCategory[] = [
 export const gatherings: Gathering[] = [
   {
     title: "Single-Origin Tasting",
-    date: "2026-07-09",
+    date: "2026-10-15",
     time: "18:30",
     seats: 12,
     detail: "Four roasts from one Ethiopian farm, poured side by side.",
   },
   {
     title: "Bread & Butter Supper",
-    date: "2026-07-23",
+    date: "2026-10-29",
     time: "19:00",
     seats: 16,
     detail: "A long table, three loaves, cultured butter, and soup.",
   },
   {
     title: "Cordial Workshop",
-    date: "2026-08-06",
+    date: "2026-11-12",
     time: "17:00",
     seats: 10,
     detail: "Build a flower cordial at the counter and take a bottle home.",

@@ -4,6 +4,8 @@ import { useEffect, useRef } from 'react'
 
 interface RevealOnScrollProps {
   children: React.ReactNode
+  /** Rendered element - use 'li' when revealing list items so the list stays valid. */
+  as?: 'div' | 'li'
   className?: string
   stagger?: boolean
   delay?: number
@@ -14,6 +16,7 @@ interface RevealOnScrollProps {
 
 export default function RevealOnScroll({
   children,
+  as: Tag = 'div',
   className = '',
   stagger = false,
   delay,
@@ -21,7 +24,7 @@ export default function RevealOnScroll({
   distance = 28,
   threshold = 0.12,
 }: RevealOnScrollProps) {
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLElement>(null)
 
   useEffect(() => {
     const el = ref.current
@@ -34,7 +37,10 @@ export default function RevealOnScroll({
           observer.disconnect()
         }
       },
-      { threshold }
+      // Reveal once the element's top has risen `threshold` of the way up the
+      // viewport. An area ratio would never fire for blocks much taller than
+      // the screen (a phone-height gallery needs 600px on screen at 0.12).
+      { threshold: 0, rootMargin: `0px 0px -${Math.round(threshold * 100)}% 0px` }
     )
 
     observer.observe(el)
@@ -52,8 +58,12 @@ export default function RevealOnScroll({
   }
 
   return (
-    <div ref={ref} className={`${dirClass} ${className}`} style={style}>
+    <Tag
+      ref={ref as React.RefObject<HTMLDivElement & HTMLLIElement>}
+      className={`${dirClass} ${className}`}
+      style={style}
+    >
       {children}
-    </div>
+    </Tag>
   )
 }

@@ -24,7 +24,7 @@ const AVIF = { quality: 50, effort: 4 };
 const JPEG = { quality: 72, mozjpeg: true };
 
 function jpgTargets() {
-  const files = [join(publicDir, "hero.jpg")];
+  const files = [join(publicDir, "hero.jpg"), join(publicDir, "hero-portrait.jpg")];
   for (const f of readdirSync(photosDir)) {
     if (/\.jpe?g$/i.test(f)) files.push(join(photosDir, f));
   }
@@ -69,8 +69,26 @@ async function buildOgImage() {
   console.log("  og    ", out);
 }
 
+// Portrait viewports crop the landscape hero to its centre column anyway, so
+// ship that column as its own file: same visible pixels, far fewer bytes.
+// Matches the 3:5 crop of the hero-N-portrait.mp4 clips.
+async function buildHeroPortrait() {
+  const out = join(publicDir, "hero-portrait.jpg");
+  if (!FORCE && existsSync(out)) return;
+  const src = sharp(join(publicDir, "hero.jpg"));
+  const { width, height } = await src.metadata();
+  const cropW = Math.round((height * 3) / 5);
+  await src
+    .extract({ left: Math.round((width - cropW) / 2), top: 0, width: cropW, height })
+    .resize({ width: 720 })
+    .jpeg(JPEG)
+    .toFile(out);
+  console.log("  crop  ", out);
+}
+
 async function main() {
   console.log(`optimize-images (FORCE=${FORCE ? "1" : "0"})`);
+  await buildHeroPortrait();
   for (const jpg of jpgTargets()) {
     console.log(jpg);
     await processJpg(jpg);

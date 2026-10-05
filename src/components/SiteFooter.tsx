@@ -14,7 +14,7 @@ import {
 
 export default function SiteFooter() {
   return (
-    <footer className="bg-espresso text-linen mt-auto">
+    <footer className="bg-espresso text-linen mt-auto text-center md:text-left">
       <div className="mx-auto max-w-6xl px-6">
 
         {/* Wordmark band */}
@@ -22,19 +22,19 @@ export default function SiteFooter() {
           <p className="font-display text-display font-light leading-none tracking-[-0.02em] text-linen/90">
             {cafeName}
           </p>
-          <p className="mt-3 font-mono text-eyebrow uppercase tracking-[0.18em] text-linen/70">
+          <p className="mt-3 font-mono text-eyebrow uppercase tracking-[0.18em] text-balance text-linen/70">
             {cafeAddress} · Est. {established}
           </p>
         </div>
 
         {/* Map + newsletter row */}
-        <div className="grid grid-cols-1 gap-6 border-b border-linen/15 py-10 md:grid-cols-2 md:gap-10 md:py-14">
+        <div className="grid grid-cols-1 gap-12 border-b border-linen/15 py-10 md:grid-cols-2 md:gap-10 md:py-14">
           {/* Embedded map */}
           <div>
             <p className="mb-4 font-mono text-eyebrow uppercase tracking-[0.2em] text-terracotta-light">
               Find us
             </p>
-            <div className="border border-linen/15 overflow-hidden" style={{ aspectRatio: "16/7" }}>
+            <div className="aspect-video overflow-hidden border border-linen/15 md:aspect-16/7">
               <MapEmbed
                 title="Cafe Botanica map"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3316.0!2d-84.3879!3d33.7623!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s118+Greenhouse+Row+Atlanta+GA!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus"
@@ -53,11 +53,11 @@ export default function SiteFooter() {
 
           {/* Newsletter */}
           <div className="flex flex-col justify-between">
-            <div>
+            <div className="mx-auto w-full max-w-md md:mx-0 md:max-w-none">
               <p className="mb-4 font-mono text-eyebrow uppercase tracking-[0.2em] text-terracotta-light">
                 The weekly post
               </p>
-              <p className="font-mono text-body leading-[1.85] text-linen/75 mb-6" style={{ maxWidth: "340px" }}>
+              <p className="mx-auto mb-6 max-w-[340px] font-mono text-body leading-[1.85] text-linen/75 md:mx-0">
                 New gatherings, seasonal menu changes, and the occasional note
                 from the counter. One email a week, never more.
               </p>
@@ -77,7 +77,7 @@ export default function SiteFooter() {
             <p className="mb-5 font-mono text-eyebrow uppercase tracking-[0.2em] text-terracotta-light">
               Contact
             </p>
-            <address className="font-mono text-body leading-loose not-italic text-linen/75">
+            <address className="font-mono text-body leading-loose not-italic text-balance text-linen/75">
               {cafeAddress}<br />
               {cafeCity}, {cafeRegion} {cafePostal}
             </address>
@@ -93,7 +93,7 @@ export default function SiteFooter() {
             >
               hello@cafebotanica.com
             </a>
-            <div className="mt-6 flex gap-5">
+            <div className="mt-6 flex flex-wrap justify-center gap-x-5 gap-y-2 md:justify-start">
               {[
                 { label: 'Instagram' },
                 { label: 'Twitter' },
@@ -114,7 +114,7 @@ export default function SiteFooter() {
             <p className="mb-5 font-mono text-eyebrow uppercase tracking-[0.2em] text-terracotta-light">
               Hours
             </p>
-            <dl className="font-mono text-body">
+            <dl className="mx-auto max-w-xs text-left font-mono text-body md:mx-0 md:max-w-none">
               {hours.schedule.map((d) => (
                 <div key={d.day} className="flex justify-between border-b border-linen/15 py-2.5 last:border-b-0">
                   <dt className="text-linen/65">{d.day}</dt>
@@ -136,7 +136,7 @@ export default function SiteFooter() {
             <p className="mb-5 font-mono text-eyebrow uppercase tracking-[0.2em] text-terracotta-light">
               Explore
             </p>
-            <ul className="font-mono text-body space-y-3">
+            <ul className="flex flex-wrap justify-center gap-x-6 gap-y-3 font-mono text-body md:block md:space-y-3">
               {[
                 { label: 'Menu',       href: '/menu' },
                 { label: 'About',      href: '/about' },
@@ -155,21 +155,21 @@ export default function SiteFooter() {
         </div>
 
         {/* Bottom bar - legal */}
-        <div className="border-t border-linen/10 py-6 space-y-3 md:space-y-0 md:flex md:items-center md:justify-between">
-          {/* Row 1 on mobile: copyright + back to top */}
-          <div className="flex items-center justify-between md:contents">
+        <div className="flex flex-col items-center gap-4 border-t border-linen/10 py-6 md:flex-row md:justify-between">
+          {/* Phones: copyright, then legal links, then back to top - stacked and centred */}
+          <div className="contents">
             <span className="font-mono text-eyebrow text-linen/70">
               &copy; {new Date().getFullYear()} {cafeName}. All rights reserved.
             </span>
             <a
               href="#main-content"
-              className="font-mono text-eyebrow text-linen/70 hover:text-linen transition-colors duration-150 md:border-l md:border-linen/20 md:pl-6 md:order-last"
+              className="order-last font-mono text-eyebrow uppercase tracking-[0.16em] text-linen/70 hover:text-linen transition-colors duration-150 md:border-l md:border-linen/20 md:pl-6 md:normal-case md:tracking-normal"
             >
               Back to top
             </a>
           </div>
           {/* Row 2 on mobile: legal links */}
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
             {[
               { label: 'Privacy Policy',    href: '/privacy' },
               { label: 'Terms of Use',      href: '/terms' },

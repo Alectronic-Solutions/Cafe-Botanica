@@ -30,6 +30,18 @@
   --text-display: clamp(2.8rem, 1.5rem + 6vw, 6rem);
 }
 
+:root {
+  /* Sticky nav height (56px bar + 1px rule). The hero subtracts it so the
+     first screen is exactly one viewport tall. */
+  --nav-h: 57px;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
 body {
   background: var(--color-linen);
   color: var(--color-espresso);
@@ -47,6 +59,37 @@ body {
 
 h1 {
   text-shadow: 0.1px 0.1px 0px rgba(44, 42, 41, 0.2);
+}
+
+h1, h2, h3, blockquote {
+  text-wrap: balance;
+}
+p, li, dd {
+  text-wrap: pretty;
+}
+
+/* Anchored sections land below the sticky nav, not under it. */
+[id] {
+  scroll-margin-top: calc(var(--nav-h) + 1rem);
+}
+
+/* ─── Label bar - ledger header: title left, meta right ─────────────
+   On phones it stacks and centres, like the head of a till receipt. */
+.label-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.375rem;
+  text-align: center;
+}
+@media (width >= 48rem) {
+  .label-bar {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1.5rem;
+    text-align: left;
+  }
 }
 
 /* Borders read as structural ink rules, not digital lines. */
@@ -141,9 +184,56 @@ html {
   animation: fadeInUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.22s both;
 }
 
+.hero-actions {
+  animation: fadeInUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.38s both;
+}
+
 /* The top rule in the hero draws in after the page loads */
 .hero-rule {
   animation: lineDrawX 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+}
+
+/* Video fades over the still once frames are actually painting, and dips
+   back to the still between clips, like a cut through a photograph. */
+.hero-video {
+  opacity: 0;
+  transition: opacity 0.7s ease;
+}
+.hero-video[data-visible="true"] {
+  opacity: 1;
+}
+
+/* Scroll cue - a 1px rule that keeps drawing downward. */
+@keyframes cueDraw {
+  0%   { transform: scaleY(0); transform-origin: top; }
+  50%  { transform: scaleY(1); transform-origin: top; }
+  51%  { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+.hero-cue {
+  animation: cueDraw 2.4s cubic-bezier(0.65, 0, 0.35, 1) 1.2s infinite both;
+}
+
+/* Live status dot */
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.25; }
+}
+.status-dot {
+  animation: pulseDot 2.4s ease-in-out infinite;
+}
+
+/* ─── Mobile menu sheet ──────────────────────────────────────────────── */
+
+@keyframes sheetIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: none; }
+}
+.menu-sheet {
+  animation: sheetIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.menu-sheet-item {
+  animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 /* ─── Scroll reveal - RevealOnScroll.tsx adds .is-visible ─────────── */
@@ -163,6 +253,13 @@ html {
 .js .reveal--right { transform: translateX(var(--reveal-x, 28px)); }
 .js .reveal--fade  { transform: none; }
 .js .reveal--scale { transform: scale(0.95); }
+
+/* Phones: sideways entrances push content past the screen edge mid-animation
+   (and iOS < 16 ignores overflow-x: clip, so the page wobbles). Rise instead. */
+@media (width < 48rem) {
+  .js .reveal--left,
+  .js .reveal--right { transform: translateY(var(--reveal-y, 24px)); }
+}
 
 /* Shared transition when visible - spring-like cubic */
 .reveal.is-visible {
@@ -261,6 +358,12 @@ html {
   .js .reveal-stagger > * {
     opacity: 1 !important;
     transform: none !important;
+  }
+
+  /* Looping cues would strobe at 0.01ms - stop them outright. */
+  .hero-cue,
+  .status-dot {
+    animation: none !important;
   }
 }
 

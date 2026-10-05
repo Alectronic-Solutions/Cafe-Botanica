@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Fraunces, Space_Mono } from "next/font/google";
 import "./globals.css";
 import SiteNav from "@/components/SiteNav";
@@ -32,6 +32,12 @@ const spaceMono = Space_Mono({
 });
 
 const ogImage = `${basePath}/og.png`;
+
+// Tint the mobile browser chrome linen so the page runs edge to edge.
+export const viewport: Viewport = {
+  themeColor: "#F7F4EE",
+  colorScheme: "light",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteOrigin),

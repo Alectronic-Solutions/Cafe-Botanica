@@ -23,15 +23,16 @@ const SPAN_CLASS: Record<number, string> = {
   8: "md:col-span-8",
 };
 
-// Every cell in a row shares one height, so mixed column widths still tile
-// edge-to-edge instead of leaving gaps under the shorter aspect ratio.
-const ROW_HEIGHT = "h-65 md:h-80";
+// Desktop: every cell in a row shares one height, so mixed column widths still
+// tile edge-to-edge. Phones: one frame per row at its true aspect ratio (capped
+// so a portrait frame never outgrows the screen), nothing cropped to a strip.
+const ROW_HEIGHT = "aspect-(--ar) max-h-[75svh] w-full md:aspect-auto md:h-80 md:max-h-none";
 
 export default function FilmGallery({ frames, heading }: FilmGalleryProps) {
   return (
     <section className="border-b border-espresso">
       <div className="mx-auto max-w-6xl px-6">
-        <div className="flex items-baseline justify-between border-b border-espresso py-4 font-mono text-caption uppercase tracking-[0.18em]">
+        <div className="label-bar border-b border-espresso py-4 font-mono text-caption uppercase tracking-[0.18em]">
           <h2 className="font-mono text-caption uppercase tracking-[0.18em]">
             {heading ?? "Contact Sheet"}
           </h2>
@@ -47,25 +48,26 @@ export default function FilmGallery({ frames, heading }: FilmGalleryProps) {
               <figure
                 key={frame.src}
                 className={`group relative overflow-hidden border-b border-r border-espresso/15 bg-linen ${SPAN_CLASS[span]} ${ROW_HEIGHT}`}
+                style={{ "--ar": `${frame.width ?? 900} / ${frame.height ?? 600}` } as React.CSSProperties}
               >
                 <Photo
                   src={frame.src}
                   alt={frame.alt}
                   width={frame.width ?? 900}
                   height={frame.height ?? 600}
-                  sizes="(max-width: 768px) 100vw, 33vw"
+                  sizes={span === 8 ? "(max-width: 768px) 100vw, 66vw" : span === 6 ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 100vw, 33vw"}
                   className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
                   style={{ filter: "sepia(10%) contrast(110%) saturate(120%)" }}
                 />
 
-                <span className="absolute left-0 top-0 bg-espresso px-2 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-linen">
+                <span aria-hidden className="absolute left-0 top-0 bg-espresso px-2 py-1 font-mono text-[11px] uppercase tracking-[0.14em] text-linen tabular-nums">
                   {String(i + 1).padStart(2, "0")}
                 </span>
 
                 {frame.caption && (
-                  <figcaption className="absolute bottom-0 left-0 right-0 flex items-baseline justify-between border-t border-linen/20 bg-espresso/85 px-3 py-2 font-mono text-eyebrow uppercase tracking-[0.14em] text-linen">
-                    <span>{frame.caption}</span>
-                    <span className="text-linen/50">Cafe Botanica</span>
+                  <figcaption className="absolute bottom-0 left-0 right-0 flex items-baseline justify-center gap-3 border-t border-linen/20 bg-espresso/85 px-3 py-2 font-mono text-eyebrow uppercase tracking-[0.14em] text-linen md:justify-between">
+                    <span className="truncate">{frame.caption}</span>
+                    <span className="hidden shrink-0 text-linen/60 lg:inline">Cafe Botanica</span>
                   </figcaption>
                 )}
               </figure>

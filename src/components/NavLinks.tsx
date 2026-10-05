@@ -2,35 +2,24 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-
-const links = [
-  { label: 'Home', href: '/' },
-  { label: 'Menu', href: '/menu' },
-  { label: 'About', href: '/about' },
-  { label: 'Gatherings', href: '/gatherings' },
-  { label: 'Gallery', href: '/gallery' },
-  { label: 'Contact', href: '/contact' },
-]
+import { navLinks } from '@/data/botanica'
 
 export default function NavLinks() {
   const pathname = usePathname()
 
   return (
     <ul className="hidden md:flex items-center gap-8">
-      {links.map(({ label, href }) => {
-        const isActive = href === '/' ? pathname === '/' : pathname === href
-        return (
-          <li key={href}>
-            <Link
-              href={href}
-              className="nav-link font-mono text-eyebrow uppercase tracking-[0.16em] text-espresso"
-              aria-current={isActive ? 'page' : undefined}
-            >
-              {label}
-            </Link>
-          </li>
-        )
-      })}
+      {navLinks.map(({ label, href }) => (
+        <li key={href}>
+          <Link
+            href={href}
+            className="nav-link font-mono text-eyebrow uppercase tracking-[0.16em] text-espresso"
+            aria-current={pathname === href ? 'page' : undefined}
+          >
+            {label}
+          </Link>
+        </li>
+      ))}
     </ul>
   )
 }

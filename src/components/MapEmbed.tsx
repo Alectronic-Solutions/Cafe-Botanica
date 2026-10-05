@@ -42,7 +42,7 @@ export default function MapEmbed({ src, title, label }: MapEmbedProps) {
       <span className="font-mono text-eyebrow uppercase tracking-[0.18em] text-linen/80 group-hover:text-linen">
         Show map
       </span>
-      <span className="font-mono text-caption text-linen/70">{label}</span>
+      <span className="font-mono text-caption text-balance text-linen/70">{label}</span>
     </button>
   );
 }

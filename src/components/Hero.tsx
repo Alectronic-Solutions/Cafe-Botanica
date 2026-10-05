@@ -1,61 +1,158 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { cafeAddress, established, hours } from "@/data/botanica";
-
-function todayLabel(): string {
-  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  return days[new Date().getDay()];
-}
+import { cafeAddress, established } from "@/data/botanica";
+import { useOpenStatus } from "@/lib/openStatus";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-const heroPoster = `${basePath}/hero.jpg`;
-const heroVideos = [
-  `${basePath}/hero-1.mp4`,
-  `${basePath}/hero-2.mp4`,
-  `${basePath}/hero-3.mp4`,
-];
+
+// Phones and portrait tablets see only the centre column of a 16:9 clip, so
+// they get 3:5 crops of that column (`hero-N-portrait.mp4`): the same visible
+// pixels at roughly a fifth of the bytes. Must match the <source media> below.
+const PORTRAIT_QUERY = "(max-aspect-ratio: 3/4)";
+const CLIP_COUNT = 3;
+const clipSrc = (i: number, portrait: boolean) =>
+  `${basePath}/hero-${i + 1}${portrait ? "-portrait" : ""}.mp4`;
+
+// Seconds before a clip ends to start dipping back to the still.
+const DIP_LEAD = 0.7;
+
 const heroFilter = "sepia(0.6) contrast(1.05) saturate(0.8) brightness(0.72)";
 
-export default function Hero() {
-  const today = todayLabel();
-  const open = hours.schedule.find((d) => d.day === today);
-  const status =
-    open && open.open && open.close
-      ? `Open today ${open.open}–${open.close}`
-      : "Closed today";
+type Connection = { saveData?: boolean; effectiveType?: string };
 
-  const imgRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  // Default to the still image; only opt into video once we've confirmed the
-  // client wants motion and isn't on a metered/Save-Data connection.
-  const [playVideo, setPlayVideo] = useState(false);
+function HeroVideo() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  // null = still image only (SSR, reduced motion, Save-Data, or 2G).
+  const [portrait, setPortrait] = useState<boolean | null>(null);
+  const [index, setIndex] = useState(0);
+  const [visible, setVisible] = useState(false);
+  const failures = useRef(0);
 
+  // Decide once on the client whether motion is welcome, then track rotation.
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const conn = (
-      navigator as Navigator & { connection?: { saveData?: boolean } }
-    ).connection;
-    const saveData = conn?.saveData === true;
-    // Client-only capability check: SSR renders the still image (playVideo=false)
-    // and we opt into video here only when motion is welcome and data is not
-    // constrained. This one-time sync with matchMedia/connection is the intended
-    // use of an effect, not a cascading-render smell.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setPlayVideo(!reduced && !saveData);
-    if (reduced) return;
+    const conn = (navigator as Navigator & { connection?: Connection }).connection;
+    const constrained =
+      conn?.saveData === true || /(^|-)2g$/.test(conn?.effectiveType ?? "");
+    if (reduced || constrained) return;
 
+    const mq = window.matchMedia(PORTRAIT_QUERY);
+    const sync = () => setPortrait(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+
+  // Drive playback for the current clip.
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v || portrait === null) return;
+
+    // iOS only autoplays inline video that is muted *as an attribute*. React
+    // sets the muted property but never writes the attribute, so do both.
+    v.muted = true;
+    v.defaultMuted = true;
+    v.setAttribute("muted", "");
+    v.setAttribute("playsinline", "");
+
+    let inView = true;
+    let blocked = false;
+
+    const tryPlay = () => {
+      if (!inView || document.hidden) return;
+      v.play().then(
+        () => { blocked = false; },
+        // Low Power Mode / Data Saver refuse autoplay. The still stays up and
+        // the first tap anywhere on the page starts the film.
+        () => { blocked = true; }
+      );
+    };
+    const onGesture = () => { if (blocked) tryPlay(); };
+    const onVisibility = () => (document.hidden ? v.pause() : tryPlay());
+
+    // Stop decoding when the hero is scrolled away: saves battery on phones.
+    const io = new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+      if (inView) tryPlay();
+      else v.pause();
+    });
+    io.observe(v);
+
+    document.addEventListener("visibilitychange", onVisibility);
+    window.addEventListener("touchend", onGesture, { passive: true });
+    window.addEventListener("click", onGesture);
+    tryPlay();
+
+    return () => {
+      io.disconnect();
+      document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("touchend", onGesture);
+      window.removeEventListener("click", onGesture);
+    };
+  }, [portrait, index]);
+
+  if (portrait === null) return null;
+
+  const next = () => {
+    setVisible(false);
+    setIndex((i) => (i + 1) % CLIP_COUNT);
+  };
+
+  return (
+    <video
+      ref={videoRef}
+      key={portrait ? "portrait" : "landscape"}
+      src={clipSrc(index, portrait)}
+      muted
+      playsInline
+      autoPlay
+      preload="auto"
+      disablePictureInPicture
+      disableRemotePlayback
+      aria-hidden
+      tabIndex={-1}
+      data-visible={visible}
+      onPlaying={() => {
+        failures.current = 0;
+        setVisible(true);
+      }}
+      onTimeUpdate={(e) => {
+        const v = e.currentTarget;
+        if (v.duration && v.duration - v.currentTime < DIP_LEAD) setVisible(false);
+      }}
+      onEnded={next}
+      onError={() => {
+        // Skip a broken clip; after a full lap of failures, stay on the still.
+        failures.current += 1;
+        if (failures.current < CLIP_COUNT) next();
+        else setPortrait(null);
+      }}
+      className="hero-video absolute inset-0 h-full w-full object-cover"
+    />
+  );
+}
+
+export default function Hero() {
+  const status = useOpenStatus();
+  const layerRef = useRef<HTMLDivElement>(null);
+
+  // Parallax: the media layer drifts at a third of scroll speed.
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     let raf = 0;
     const onScroll = () => {
       if (raf) return;
       raf = requestAnimationFrame(() => {
         raf = 0;
-        if (imgRef.current) {
-          imgRef.current.style.transform = `translateY(${window.scrollY * 0.35}px)`;
+        const y = window.scrollY;
+        // Past the hero there is nothing to move.
+        if (layerRef.current && y < window.innerHeight * 1.2) {
+          layerRef.current.style.transform = `translate3d(0, ${y * 0.35}px, 0)`;
         }
       });
     };
-
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", onScroll);
@@ -64,62 +161,59 @@ export default function Hero() {
   }, []);
 
   return (
-    <header className="relative h-[calc(100dvh-4.5rem)] overflow-hidden border-b border-espresso/20">
-      {/* Parallax photo layer */}
+    <header className="relative isolate flex min-h-[calc(100svh-var(--nav-h))] flex-col overflow-hidden border-b border-espresso/20">
+      {/* Media layer: still photograph underneath (LCP, no-JS, reduced motion),
+          film on top once it is actually painting frames. */}
       <div
-        ref={imgRef}
-        className="absolute inset-0 h-[130%] w-full will-change-transform"
-        style={{ top: "-15%" }}
+        ref={layerRef}
+        className="absolute inset-x-0 -top-[15%] -z-10 h-[130%] will-change-transform"
+        style={{ filter: heroFilter }}
       >
-        {playVideo ? (
-          // Only the active clip is in the DOM/network at a time. The poster
-          // (hero.jpg) paints instantly as the LCP and bridges each clip swap,
-          // so there is no black flash between videos.
-          <video
-            key={activeIndex}
-            src={heroVideos[activeIndex]}
-            poster={heroPoster}
-            muted
-            playsInline
-            autoPlay
-            preload="auto"
-            onEnded={() =>
-              setActiveIndex((current) => (current + 1) % heroVideos.length)
-            }
-            className="h-full w-full object-cover"
-            style={{ filter: heroFilter }}
-          />
-        ) : (
-          // eslint-disable-next-line @next/next/no-img-element
+        <picture>
+          <source media={PORTRAIT_QUERY} type="image/avif" srcSet={`${basePath}/hero-portrait.avif`} />
+          <source media={PORTRAIT_QUERY} type="image/webp" srcSet={`${basePath}/hero-portrait.webp`} />
+          <source media={PORTRAIT_QUERY} srcSet={`${basePath}/hero-portrait.jpg`} />
+          <source type="image/avif" srcSet={`${basePath}/hero.avif`} />
+          <source type="image/webp" srcSet={`${basePath}/hero.webp`} />
           <img
-            src={heroPoster}
+            src={`${basePath}/hero.jpg`}
             alt="The counter at Cafe Botanica, early morning"
             width={1800}
             height={1200}
             fetchPriority="high"
-            className="h-full w-full object-cover"
-            style={{ filter: heroFilter }}
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover"
           />
-        )}
+        </picture>
+        <HeroVideo />
       </div>
 
-      {/* Warm tan overlay */}
-      <div className="absolute inset-0 bg-linen/70" />
+      {/* Warm linen wash */}
+      <div className="absolute inset-0 -z-10 bg-linen/70" />
 
-      {/* Content */}
-      <div className="relative z-10 mx-auto flex h-full max-w-6xl flex-col px-6">
-        {/* Top rule - border draws in via hero-rule */}
-        <div className="hero-rule flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 border-b border-espresso/30 py-3 font-mono text-eyebrow uppercase tracking-[0.18em] text-espresso">
-          <span>Cafe Botanica</span>
-          <span>Est. {established}</span>
+      <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-6">
+        {/* Top rule: draws in on load */}
+        <div className="hero-rule flex flex-col items-center gap-1.5 border-b border-espresso/30 py-3 text-center font-mono text-eyebrow uppercase tracking-[0.18em] text-espresso sm:flex-row sm:flex-wrap sm:items-baseline sm:justify-between sm:gap-x-6 sm:text-left">
+          <span>
+            Cafe Botanica<span className="sm:hidden"> · Est. {established}</span>
+          </span>
+          <span className="hidden sm:inline">Est. {established}</span>
           <span className="hidden md:inline">{cafeAddress}</span>
-          <span className="text-terracotta">{status}</span>
+          <span
+            className={`inline-flex items-center gap-2 transition-opacity duration-500 ${status ? "opacity-100" : "opacity-0"}`}
+          >
+            <span
+              aria-hidden
+              className={`inline-block h-1.5 w-1.5 ${status?.open ? "status-dot bg-espresso" : "border border-espresso"}`}
+            />
+            {status?.label ?? "Hours"}
+          </span>
         </div>
 
-        {/* Asymmetric headline */}
-        <div className="grid flex-1 grid-cols-1 items-center gap-y-8 md:grid-cols-12 md:gap-y-0">
+        {/* Headline + newspaper column */}
+        <div className="grid flex-1 grid-cols-1 content-center items-center gap-y-9 py-12 text-center md:grid-cols-12 md:gap-y-0 md:py-0 md:text-left">
           <h1
-            className="hero-animate col-span-1 font-display text-h1 font-medium leading-[0.98] tracking-[-0.015em] text-espresso md:col-span-8"
+            className="hero-animate font-display text-h1 font-medium leading-[0.98] tracking-[-0.015em] text-espresso md:col-span-8"
             /* Legibility scrim behind display type over photo/video - not a decorative shadow */
             style={{ textShadow: "0 0 24px rgba(247,244,238,0.85), 0 0 10px rgba(247,244,238,0.95)" }}
           >
@@ -130,22 +224,31 @@ export default function Hero() {
             <span className="italic text-terracotta">green things.</span>
           </h1>
 
-          {/* Newspaper column */}
-          <div className="col-span-1 flex flex-col justify-end md:col-span-4">
-            <p
-              className="hero-tagline font-mono text-body-lg leading-[1.85] text-espresso w-full"
-              style={{
-                background: "rgba(247,244,238,0.90)",
-                backdropFilter: "blur(8px)",
-                WebkitBackdropFilter: "blur(8px)",
-                padding: "18px 20px",
-                borderLeft: "2px solid rgba(44,42,41,0.25)",
-              }}
-            >
+          <div className="mx-auto flex w-full max-w-sm flex-col md:col-span-4 md:mx-0 md:max-w-none md:self-end md:pb-16">
+            <p className="hero-tagline border-t border-espresso/25 bg-linen/90 px-5 py-4 font-mono text-body leading-[1.8] text-espresso backdrop-blur-sm md:border-l-2 md:border-t-0 md:text-body-lg md:leading-[1.85]">
               An espresso bar and bakery on Greenhouse Row. We pull short shots,
               bake overnight, and steep what grows in the back.
             </p>
+            <div className="hero-actions mt-3 grid grid-cols-2 gap-px border border-espresso bg-espresso font-mono text-eyebrow uppercase tracking-[0.16em]">
+              <Link
+                href="/menu"
+                className="bg-espresso px-3 py-3.5 text-center text-linen transition-colors duration-150 hover:bg-terracotta"
+              >
+                Read the menu
+              </Link>
+              <Link
+                href="/contact"
+                className="bg-linen/90 px-3 py-3.5 text-center text-espresso transition-colors duration-150 hover:bg-linen"
+              >
+                Find us
+              </Link>
+            </div>
           </div>
+        </div>
+
+        {/* Scroll cue */}
+        <div aria-hidden className="flex justify-center pb-5 md:hidden">
+          <span className="hero-cue block h-10 w-px bg-espresso/60" />
         </div>
       </div>
     </header>

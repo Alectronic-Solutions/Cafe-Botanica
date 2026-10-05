@@ -14,7 +14,7 @@ export default function About() {
     <div>
       {/* Label bar */}
       <div className="mx-auto max-w-6xl px-6">
-        <div className="flex items-baseline justify-between border-b border-espresso py-4 font-mono text-caption uppercase tracking-[0.18em]">
+        <div className="label-bar border-b border-espresso py-4 font-mono text-caption uppercase tracking-[0.18em]">
           <span>The Story</span>
           <span>Est. 1974</span>
         </div>
@@ -23,13 +23,13 @@ export default function About() {
       {/* Founding - asymmetric 7/5 grid */}
       <RevealOnScroll>
         <div className="mx-auto max-w-6xl px-6">
-          <div className="grid grid-cols-1 gap-y-12 py-24 md:grid-cols-12 md:gap-x-10 md:py-32">
-            <div className="col-span-1 md:col-span-7">
+          <div className="grid grid-cols-1 gap-y-12 py-14 md:grid-cols-12 md:gap-x-10 md:py-32">
+            <div className="col-span-1 text-center md:col-span-7 md:text-left">
               <h1 className="font-display text-[clamp(2.5rem,7vw,5.5rem)] font-light leading-[0.95] tracking-[-0.02em]">
                 A place that does<br />
                 not hurry.
               </h1>
-              <div className="mt-10 space-y-5 font-mono text-body leading-[1.85] text-espresso/85" style={{ maxWidth: "480px" }}>
+              <div className="mx-auto mt-10 max-w-[480px] space-y-5 font-mono text-body leading-[1.85] text-espresso/85 md:mx-0">
                 <p>
                   Margaret Hollis opened the doors on Greenhouse Row in the autumn of 1974.
                   The neighborhood was quiet then. A few artists, a print shop, the
@@ -51,7 +51,7 @@ export default function About() {
 
             {/* Photograph */}
             <div className="col-span-1 md:col-span-5">
-              <div className="border border-espresso overflow-hidden" style={{ aspectRatio: "3/4" }}>
+              <div className="mx-auto max-w-sm overflow-hidden border border-espresso md:max-w-none" style={{ aspectRatio: "3/4" }}>
                 <Photo
                   src="/photos/about-interior.jpg"
                   alt="118 Greenhouse Row interior, 1974"
@@ -62,7 +62,7 @@ export default function About() {
                   style={{ filter: "sepia(20%) contrast(105%) saturate(110%)" }}
                 />
               </div>
-              <p className="font-mono text-eyebrow uppercase tracking-[0.16em] text-espresso/60 mt-3">
+              <p className="mt-3 text-center font-mono text-eyebrow uppercase tracking-[0.16em] text-espresso/60 md:text-left">
                 118 Greenhouse Row · 1974
               </p>
             </div>
@@ -90,11 +90,11 @@ export default function About() {
                     body: "Fourteen tables. A long counter with six stools. No music after nine in the morning. The room is designed for people who want to sit and think, read, or talk quietly. We have never installed speakers. We do not intend to.",
                   },
                 ].map(({ label, body }) => (
-                  <div key={label} className="border-t border-espresso pt-8 pb-10 md:border-l md:border-t-0 md:px-8 first:md:pl-0 last:md:pr-0">
-                    <p className="font-mono text-caption uppercase tracking-[0.14em] text-terracotta mb-4">
+                  <div key={label} className="border-t border-espresso pt-8 pb-10 text-center first:border-t-0 md:border-l md:border-t-0 md:px-8 md:text-left first:md:border-l-0 first:md:pl-0 last:md:pr-0">
+                    <h2 className="font-mono text-caption uppercase tracking-[0.14em] text-terracotta mb-4">
                       {label}
-                    </p>
-                    <p className="font-mono text-body leading-[1.85] text-espresso/85">
+                    </h2>
+                    <p className="mx-auto max-w-[480px] font-mono text-body leading-[1.85] text-espresso/85">
                       {body}
                     </p>
                   </div>
@@ -108,8 +108,8 @@ export default function About() {
       {/* Pull quote */}
       <RevealOnScroll>
         <div className="border-t border-b border-espresso my-0">
-          <div className="mx-auto max-w-6xl px-6 py-20 md:py-28">
-            <blockquote className="font-display text-[clamp(1.8rem,5vw,4rem)] font-light leading-[1.1] tracking-[-0.01em] italic max-w-4xl">
+          <div className="mx-auto max-w-6xl px-6 py-16 text-center md:py-28 md:text-left">
+            <blockquote className="font-display text-[clamp(1.8rem,5vw,4rem)] font-light leading-[1.1] tracking-[-0.01em] italic mx-auto max-w-4xl md:mx-0">
               We are not a third wave coffee concept. We are a place.
             </blockquote>
             <p className="mt-6 font-mono text-caption uppercase tracking-[0.18em] text-espresso/60">

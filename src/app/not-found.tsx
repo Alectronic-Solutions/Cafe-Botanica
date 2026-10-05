@@ -2,24 +2,24 @@ import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <div className="mx-auto max-w-6xl px-6 py-32">
-      <div className="flex items-baseline justify-between border-b border-espresso py-4 font-mono text-caption uppercase tracking-[0.18em]">
+    <div className="mx-auto max-w-6xl px-6 py-14 md:py-32">
+      <div className="label-bar border-b border-espresso py-4 font-mono text-caption uppercase tracking-[0.18em]">
         <span>404</span>
         <span>Page not found</span>
       </div>
 
-      <div className="grid grid-cols-1 py-24 md:grid-cols-12">
+      <div className="grid grid-cols-1 gap-y-8 py-16 text-center md:grid-cols-12 md:py-24 md:text-left">
         <h1 className="col-span-1 font-display text-[clamp(4rem,12vw,9rem)] font-light leading-[0.9] tracking-[-0.02em] md:col-span-7">
           Not here.
         </h1>
-        <div className="col-span-1 flex items-end md:col-span-5">
-          <p className="font-mono text-body-sm leading-[1.8]" style={{ maxWidth: "280px" }}>
+        <div className="col-span-1 flex items-end justify-center md:col-span-5 md:justify-start">
+          <p className="font-mono text-body-sm leading-[1.8]" style={{ maxWidth: "300px" }}>
             This page does not exist. The coffee, however, does.
           </p>
         </div>
       </div>
 
-      <div className="border-t border-espresso/20 pt-6">
+      <div className="border-t border-espresso/20 pt-6 text-center md:text-left">
         <Link
           href="/"
           className="nav-link font-mono text-caption uppercase tracking-[0.16em] text-espresso"
